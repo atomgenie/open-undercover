@@ -1,2 +1,4 @@
 /workbox-*\.js
+/workbox-*\.js\.map
 /sw\.js
+/sw\.js\.map

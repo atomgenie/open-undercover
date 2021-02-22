@@ -16,9 +16,9 @@ const MyApp = ({ Component, pageProps }: any) => {
                 />
                 <link rel="apple-touch-icon" href="/apple-icon.png"></link>
                 <meta name="theme-color" content="#6605cc" />
+                <title>Open Undercover</title>
             </Head>
             <StoreProvider>
-                <title>Open Undercover</title>
                 <DarkMode>
                     <div className="overflow-hidden flex flex-col flex-1 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
                         <Header />
