@@ -16,7 +16,7 @@ export const Header: React.FC = () => {
             <div className="container mx-auto px-2 flex items-center py-3 gap-6">
                 <div className="bg-brand text-white rounded-full px-4 py-2 font-bold flex items-center gap-2">
                     <FiStar />
-                    <div>Open-Undercover</div>
+                    <div className="text-sm">Open-Undercover</div>
                 </div>
                 <div className="flex-grow"></div>
                 {state.gameStep === GAME_STEPS.EMPTY && (

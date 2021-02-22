@@ -68,7 +68,7 @@ export const GameInit: React.FC = () => {
                                 <input
                                     type="text"
                                     autoComplete="off"
-                                    className="border w-42 rounded-full py-2 px-4 text-sm outline-none dark:bg-gray-700 dark:border-gray-600"
+                                    className="border w-full rounded-full py-2 px-4 text-sm outline-none dark:bg-gray-700 dark:border-gray-600"
                                     value={name}
                                     onChange={e => setName(e.target.value)}
                                     placeholder="Player name"
