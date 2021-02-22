@@ -1,21 +1,34 @@
 import "../styles/globals.scss"
 
+import Head from "next/head"
 import { StoreProvider } from "helpers/redux/store"
 import { Header } from "components/header/Header"
 import { DarkMode } from "components/dark-mode"
 
 const MyApp = ({ Component, pageProps }: any) => {
     return (
-        <StoreProvider>
-            <DarkMode>
-                <div className="overflow-hidden flex flex-col flex-1 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
-                    <Header />
-                    <div className="overflow-hidden flex flex-grow flex-col">
-                        <Component {...pageProps} />
+        <>
+            <Head>
+                <link rel="manifest" href="/manifest.json" />
+                <meta
+                    name="viewport"
+                    content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+                />
+                <link rel="apple-touch-icon" href="/apple-icon.png"></link>
+                <meta name="theme-color" content="#6605cc" />
+            </Head>
+            <StoreProvider>
+                <title>Open Undercover</title>
+                <DarkMode>
+                    <div className="overflow-hidden flex flex-col flex-1 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+                        <Header />
+                        <div className="overflow-hidden flex flex-grow flex-col">
+                            <Component {...pageProps} />
+                        </div>
                     </div>
-                </div>
-            </DarkMode>
-        </StoreProvider>
+                </DarkMode>
+            </StoreProvider>
+        </>
     )
 }
 
