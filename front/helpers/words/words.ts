@@ -1,20 +1,3 @@
-export const WORDS: [string, string][] = [
-    ["Coca-Cola", "Pepsi"],
-    ["Ecole", "Lycee"],
-    ["Badoit", "Perrier"],
-    ["Fraise", "Cerise"],
-    ["Piment", "Wasabi"],
-    ["Douche", "Bain"],
-    ["Table", "Chaise"],
-    ["Paris", "Marseille"],
-    ["Alpes", "Pyrénées"],
-    ["Instagram", "Snapchat"],
-    ["Lac", "Mer"],
-    ["Chien", "Chat"],
-    ["Youtube", "Netflix"],
-    ["Pomme", "Poire"],
-    ["Rhum", "Whisky"],
-    ["Appartement", "Maison"],
-    ["Allemagne", "Espagne"],
-    ["Football", "Tennis"],
-]
+import wordsRaw from "./words-raw.json"
+
+export const WORDS: [string, string][] = wordsRaw as [string, string][]

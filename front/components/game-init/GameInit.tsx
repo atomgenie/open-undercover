@@ -51,7 +51,7 @@ export const GameInit: React.FC = () => {
 
     return (
         <div className="flex-grow flex flex-col overflow-hidden">
-            <div className="flex-grow overflow-scroll flex-shrink">
+            <div className="flex-grow overflow-y-auto flex-shrink">
                 <div className="container mx-auto px-2">
                     <div className="flex gap-4 flex-wrap justify-center sm:justify-start py-8">
                         <div className="h-80 w-64 bg-white dark:bg-gray-800 shadow-sm border dark:border-gray-700 rounded-md flex flex-col justify-center items-center px-4 py-4">

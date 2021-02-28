@@ -43,7 +43,7 @@ export const Vote: React.FC = () => {
                     <b>{nbUndercoversAlive}</b> Undercover alive
                 </div>
             </div>
-            <div className="flex-grow flex-shrink overflow-y-scroll">
+            <div className="flex-grow flex-shrink overflow-y-auto">
                 <div className="container mx-auto px-2 flex flex-col gap-6">
                     <div className="flex justify-center mt-6 sticky top-6">
                         <div className="bg-white dark:bg-black rounded-full text-brand dark:text-white shadow px-6 py-2 flex items-center gap-4">
