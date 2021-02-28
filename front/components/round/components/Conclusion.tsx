@@ -84,7 +84,7 @@ export const Conclusion: React.FC = () => {
             </div>
             <div>
                 <div className="flex flex-col gap-2 container mx-auto px-2 mt-4">
-                    {state.players
+                    {[...state.players]
                         .sort((playerA, playerB) => playerB.score - playerA.score)
                         .map(player => (
                             <div
