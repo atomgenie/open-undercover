@@ -41,6 +41,11 @@ interface AddScore {
     score: { playerName: string; amount: number }[]
 }
 
+interface HydrateAction {
+    type: "HYDRATE"
+    state: any
+}
+
 export type Actions =
     | CleanAction
     | InitAction
@@ -51,3 +56,4 @@ export type Actions =
     | DeletePlayer
     | SetUndercovers
     | AddScore
+    | HydrateAction

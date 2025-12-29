@@ -1,6 +1,7 @@
+import { PropsWithChildren } from "react"
 import { useStoreState } from "helpers/redux"
 
-export const DarkMode: React.FC = ({ children }) => {
+export const DarkMode: React.FC<PropsWithChildren> = ({ children }) => {
     const { darkMode } = useStoreState()
 
     return (

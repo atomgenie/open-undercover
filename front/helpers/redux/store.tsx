@@ -1,4 +1,13 @@
-import { createContext, Dispatch, Reducer, useContext, useReducer } from "react"
+import {
+    createContext,
+    Dispatch,
+    PropsWithChildren,
+    Reducer,
+    useContext,
+    useEffect,
+    useReducer,
+    useRef,
+} from "react"
 
 import { Player } from "types/player"
 import { Actions } from "./actions"
@@ -32,8 +41,13 @@ const StoreContext = createContext<{
 
 const reducer: Reducer<State, Actions> = (state, action) => {
     switch (action.type) {
+        case "HYDRATE":
+            return action.state
         case "CLEAR":
-            return initialState
+            return {
+                ...initialState,
+                darkMode: state.darkMode,
+            }
         case "INIT":
             return {
                 ...state,
@@ -96,8 +110,38 @@ const reducer: Reducer<State, Actions> = (state, action) => {
     }
 }
 
-export const StoreProvider: React.FC = ({ children }) => {
+export const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
+    const isFirstRender = useRef(true)
+
+    useEffect(() => {
+        const saved = localStorage.getItem("OPEN_UNDERCOVER_STATE")
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved)
+                const now = new Date().getTime()
+                if (now - parsed.timestamp < 24 * 60 * 60 * 1000) {
+                    dispatch({ type: "HYDRATE", state: parsed.state })
+                } else {
+                    localStorage.removeItem("OPEN_UNDERCOVER_STATE")
+                }
+            } catch (e) {
+                console.error("Failed to load state", e)
+            }
+        }
+    }, [])
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false
+            return
+        }
+        const saveData = {
+            state,
+            timestamp: new Date().getTime(),
+        }
+        localStorage.setItem("OPEN_UNDERCOVER_STATE", JSON.stringify(saveData))
+    }, [state])
 
     return (
         <StoreContext.Provider value={{ state: state, dispatch: dispatch }}>

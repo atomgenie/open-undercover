@@ -1,4 +1,4 @@
-import { createContext, Dispatch, Reducer, useContext, useReducer } from "react"
+import { createContext, Dispatch, PropsWithChildren, Reducer, useContext, useReducer } from "react"
 import { PlayerRound } from "types/player"
 import { ActionsRound, ROUND_STEP } from "./actions"
 import { getCivilsAlive, getUndercoverAlive, isEnd } from "helpers/undercover"
@@ -116,7 +116,7 @@ const reducer: Reducer<RoundState, ActionsRound> = (state, action) => {
     return newState
 }
 
-export const StoreRoundProvider: React.FC = ({ children }) => {
+export const StoreRoundProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initalState)
 
     return (

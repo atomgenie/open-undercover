@@ -1,5 +1,5 @@
 import { useStoreState, GAME_STEPS, useStoreDispatch } from "helpers/redux"
-import { FiSun, FiMoon } from "react-icons/fi"
+import { FiSun, FiMoon, FiRefreshCw } from "react-icons/fi"
 import Image from "next/image"
 
 export const Header: React.FC = () => {
@@ -10,6 +10,14 @@ export const Header: React.FC = () => {
         dispatch({
             type: "DARK_MODE",
         })
+    }
+
+    const resetGame = () => {
+        if (confirm("Are you sure you want to restart the game?")) {
+            dispatch({
+                type: "CLEAR",
+            })
+        }
     }
 
     return (
@@ -25,7 +33,7 @@ export const Header: React.FC = () => {
                     <div className="text-sm">Open-Undercover</div>
                 </div>
                 <div className="flex-grow flex-shrink"></div>
-                {state.gameStep === GAME_STEPS.EMPTY && (
+                {state.gameStep === GAME_STEPS.EMPTY ? (
                     <button
                         onClick={() => {
                             dispatch({
@@ -34,6 +42,14 @@ export const Header: React.FC = () => {
                         }}
                     >
                         Start a game
+                    </button>
+                ) : (
+                    <button
+                        className="flex items-center gap-2 opacity-60"
+                        onClick={resetGame}
+                    >
+                        <FiRefreshCw />
+                        <div>Reset</div>
                     </button>
                 )}
                 {state.darkMode ? (
