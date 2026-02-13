@@ -1,11 +1,18 @@
-import "../styles/globals.scss"
+import "../styles/globals.css"
 
+import { useEffect } from "react"
 import Head from "next/head"
 import { StoreProvider } from "helpers/redux/store"
 import { Header } from "components/header/Header"
 import { DarkMode } from "components/dark-mode"
 
 const MyApp = ({ Component, pageProps }: any) => {
+    useEffect(() => {
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js")
+        }
+    }, [])
+
     return (
         <>
             <Head>

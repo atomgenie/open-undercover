@@ -25,7 +25,7 @@ export const MrWhiteGuess: React.FC = () => {
     }
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
             <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-sm w-full mx-4 flex flex-col items-center gap-4">
                 <div className="text-2xl font-bold text-center">
                     Mister White
@@ -46,7 +46,7 @@ export const MrWhiteGuess: React.FC = () => {
                     <input
                         type="text"
                         autoComplete="off"
-                        className="border w-full rounded-full py-2 px-4 text-sm outline-none dark:bg-gray-700 dark:border-gray-600"
+                        className="border border-gray-200 w-full rounded-full py-2 px-4 text-sm outline-hidden dark:bg-gray-700 dark:border-gray-600"
                         value={guess}
                         onChange={e => setGuess(e.target.value)}
                         placeholder="Enter your guess..."

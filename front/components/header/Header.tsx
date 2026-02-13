@@ -21,7 +21,7 @@ export const Header: React.FC = () => {
     }
 
     return (
-        <div className="bg-white dark:bg-brand-dark flex-shrink-0 shado-sm">
+        <div className="bg-white dark:bg-brand-dark flex-shrink-0 shadow-xs">
             <div className="container mx-auto px-2 flex items-center py-3 gap-6">
                 <div className="bg-brand text-white rounded-full px-4 py-2 font-bold flex items-center gap-2 flex-shrink-0">
                     <Image

@@ -92,7 +92,7 @@ export const Conclusion: React.FC = () => {
                         .map(player => (
                             <div
                                 key={player.name}
-                                className="flex items-center bg-white dark:bg-gray-800 rounded-md py-4 px-4 border dark:border-gray-700"
+                                className="flex items-center bg-white dark:bg-gray-800 rounded-md py-4 px-4 border border-gray-200 dark:border-gray-700"
                             >
                                 <div>{player.name}</div>
                                 <div className="flex-grow"></div>

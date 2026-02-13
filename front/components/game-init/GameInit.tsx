@@ -59,7 +59,7 @@ export const GameInit: React.FC = () => {
             <div className="flex-grow overflow-y-auto flex-shrink">
                 <div className="container mx-auto px-2">
                     <div className="flex gap-4 flex-wrap justify-center sm:justify-start py-8">
-                        <div className="h-80 w-64 bg-white dark:bg-gray-800 shadow-sm border dark:border-gray-700 rounded-md flex flex-col justify-center items-center px-4 py-4">
+                        <div className="h-80 w-64 bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 rounded-md flex flex-col justify-center items-center px-4 py-4">
                             <form
                                 className="flex flex-col gap-4 items-center"
                                 onSubmit={e => {
@@ -73,13 +73,13 @@ export const GameInit: React.FC = () => {
                                 <input
                                     type="text"
                                     autoComplete="off"
-                                    className="border w-full rounded-full py-2 px-4 text-sm outline-none dark:bg-gray-700 dark:border-gray-600"
+                                    className="border border-gray-200 w-full rounded-full py-2 px-4 text-sm outline-hidden dark:bg-gray-700 dark:border-gray-600"
                                     value={name}
                                     onChange={e => setName(e.target.value)}
                                     placeholder="Player name"
                                 />
                                 <button
-                                    className={`flex items-center gap-2 py-2 px-4 rounded-full bg-gray-100 border dark:bg-gray-700 dark:border-gray-600 ${
+                                    className={`flex items-center gap-2 py-2 px-4 rounded-full bg-gray-100 border border-gray-200 dark:bg-gray-700 dark:border-gray-600 ${
                                         !isNameValid ? "opacity-20 cursor-default" : ""
                                     }`}
                                     disabled={!isNameValid}
@@ -103,7 +103,7 @@ export const GameInit: React.FC = () => {
                         <span className="font-bold text-white">
                             {state.players.length}
                         </span>{" "}
-                        <span className="text-white text-opacity-75">
+                        <span className="text-white/75">
                             player
                             {state.players.length > 1 && "s"}
                         </span>

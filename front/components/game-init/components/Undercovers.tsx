@@ -23,7 +23,7 @@ export const Undercovers: React.FC = () => {
                 <span className="font-bold">{undercovers}</span>
             </div>
             <button
-                className={`rounded-full flex items-center justify-center bg-brand-light text-brand h-6 w-6 outline-none flex-shrink-0 ${
+                className={`rounded-full flex items-center justify-center bg-brand-light text-brand h-6 w-6 outline-hidden flex-shrink-0 ${
                     !canMinus ? "opacity-20 cursor-default" : ""
                 }`}
                 disabled={!canMinus}
@@ -41,7 +41,7 @@ export const Undercovers: React.FC = () => {
                 <FiMinus />
             </button>
             <button
-                className={`rounded-full flex items-center justify-center bg-brand-light text-brand h-6 w-6 outline-none flex-shrink-0 ${
+                className={`rounded-full flex items-center justify-center bg-brand-light text-brand h-6 w-6 outline-hidden flex-shrink-0 ${
                     !canPlus ? "opacity-20 cursor-default" : ""
                 }`}
                 disabled={!canPlus}

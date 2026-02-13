@@ -96,7 +96,7 @@ export const Distribution: React.FC = () => {
             <div className="container mx-auto px-2">
                 <div className="flex justify-center">
                     <div
-                        className="px-4 py-8 bg-brand rounded-md my-4 shadow flex-grow max-w-sm flex flex-col items-center gap-4"
+                        className="px-4 py-8 bg-brand rounded-md my-4 shadow-sm flex-grow max-w-sm flex flex-col items-center gap-4"
                         style={{ minHeight: 500 }}
                     >
                         {showPlayer % STEPS_PER_PLAYER === 0 && (
@@ -104,10 +104,10 @@ export const Distribution: React.FC = () => {
                                 <div className="bg-brand-dark text-white text-4xl h-28 w-28 rounded-full flex items-center justify-center font-bold">
                                     {getInitials(currentPlayer.name)}
                                 </div>
-                                <div className="text-center text-white text-2xl font-bold text-opacity-90">
+                                <div className="text-center text-white/90 text-2xl font-bold">
                                     {currentPlayer.name}
                                 </div>
-                                <div className="text-white text-opacity-70 text-sm">
+                                <div className="text-white/70 text-sm">
                                     Give this device to{" "}
                                     <b className="text-white">{currentPlayer.name}</b>
                                 </div>
@@ -126,24 +126,24 @@ export const Distribution: React.FC = () => {
                                 <div className="bg-brand-dark text-white text-4xl h-28 w-28 rounded-full flex items-center justify-center font-bold">
                                     {getInitials(currentPlayer.name)}
                                 </div>
-                                <div className="text-center text-white text-2xl font-bold text-opacity-90">
+                                <div className="text-center text-white/90 text-2xl font-bold">
                                     {currentPlayer.name}
                                 </div>
                                 {currentPlayer.isMrWhite ? (
                                     <>
-                                        <div className="text-white text-opacity-70 text-sm">
+                                        <div className="text-white/70 text-sm">
                                             You are
                                         </div>
                                         <div className="text-3xl text-white font-bold text-center mt-4">
                                             Mister White
                                         </div>
-                                        <div className="text-white text-opacity-70 text-sm text-center">
+                                        <div className="text-white/70 text-sm text-center">
                                             You have no word. Try to blend in!
                                         </div>
                                     </>
                                 ) : (
                                     <>
-                                        <div className="text-white text-opacity-70 text-sm">
+                                        <div className="text-white/70 text-sm">
                                             This is your word
                                         </div>
                                         <div className="text-3xl text-white font-bold text-center mt-4">

@@ -11,7 +11,7 @@ export const PlayerCard: React.FC<props> = ({ player }) => {
     const dispatch = useStoreDispatch()
 
     return (
-        <div className="h-80 w-64 bg-gray-200 dark:bg-gray-900 border dark:border-gray-700 rounded-md flex flex-col justify-center items-center p-4 relative">
+        <div className="h-80 w-64 bg-gray-200 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md flex flex-col justify-center items-center p-4 relative">
             <div className="text-center flex flex-col items-center gap-4">
                 <div className="h-24 w-24 bg-gray-300 dark:bg-gray-800 rounded-full flex items-center justify-center text-4xl font-bold">
                     {getInitials(player.name)}

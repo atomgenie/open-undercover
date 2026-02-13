@@ -50,7 +50,7 @@ export const Vote: React.FC = () => {
             <div className="flex-grow flex-shrink overflow-y-auto">
                 <div className="container mx-auto px-2 flex flex-col gap-6">
                     <div className="flex justify-center mt-6 sticky top-6">
-                        <div className="bg-white dark:bg-black rounded-full text-brand dark:text-white shadow px-6 py-2 flex items-center gap-4">
+                        <div className="bg-white dark:bg-black rounded-full text-brand dark:text-white shadow-sm px-6 py-2 flex items-center gap-4">
                             {isLoose && (
                                 <>
                                     <div>{mrWhiteWin ? "Mister White guessed the word!" : "Undercovers wins"}</div>
