@@ -8,7 +8,7 @@ import { PlayerRound } from "types/player"
 const STEPS_PER_PLAYER = 2
 
 export const Distribution: React.FC = () => {
-    const { players, undercovers } = useStoreState()
+    const { players, undercovers, mrWhite } = useStoreState()
     const roundState = useRoundState()
     const roundDispatch = useRoundDispatcher()
 
@@ -18,8 +18,16 @@ export const Distribution: React.FC = () => {
      */
     const [showPlayer, setShowPlayer] = useState(0)
 
+    const mrWhitePlayer: string | null = useMemo(() => {
+        if (!mrWhite) return null
+        const idx = Math.trunc(Math.random() * players.length)
+        return players[idx].name
+    }, [players, mrWhite])
+
     const undercoversRound: string[] = useMemo(() => {
-        let allPlayers = players.map(player => player.name)
+        let allPlayers = players
+            .map(player => player.name)
+            .filter(name => name !== mrWhitePlayer)
 
         let selectedPlayers: string[] = []
 
@@ -35,19 +43,21 @@ export const Distribution: React.FC = () => {
         }
 
         return selectedPlayers
-    }, [players, undercovers])
+    }, [players, undercovers, mrWhitePlayer])
 
     const playersWithWord = useMemo((): PlayerRound[] => {
         return players.map(player => {
             const isUndercover = undercoversRound.some(name => player.name === name)
+            const isMrWhite = player.name === mrWhitePlayer
             return {
                 alive: true,
-                card: isUndercover ? roundState.undercoverWord : roundState.validWord,
+                card: isMrWhite ? "" : isUndercover ? roundState.undercoverWord : roundState.validWord,
                 isUndercover: isUndercover,
+                isMrWhite: isMrWhite,
                 name: player.name,
             }
         })
-    }, [players, undercoversRound, roundState.undercoverWord, roundState.validWord])
+    }, [players, undercoversRound, mrWhitePlayer, roundState.undercoverWord, roundState.validWord])
 
     useEffect(() => {
         roundDispatch({
@@ -119,12 +129,28 @@ export const Distribution: React.FC = () => {
                                 <div className="text-center text-white text-2xl font-bold text-opacity-90">
                                     {currentPlayer.name}
                                 </div>
-                                <div className="text-white text-opacity-70 text-sm">
-                                    This is your word
-                                </div>
-                                <div className="text-3xl text-white font-bold text-center mt-4">
-                                    {currentPlayer.card}
-                                </div>
+                                {currentPlayer.isMrWhite ? (
+                                    <>
+                                        <div className="text-white text-opacity-70 text-sm">
+                                            You are
+                                        </div>
+                                        <div className="text-3xl text-white font-bold text-center mt-4">
+                                            Mister White
+                                        </div>
+                                        <div className="text-white text-opacity-70 text-sm text-center">
+                                            You have no word. Try to blend in!
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="text-white text-opacity-70 text-sm">
+                                            This is your word
+                                        </div>
+                                        <div className="text-3xl text-white font-bold text-center mt-4">
+                                            {currentPlayer.card}
+                                        </div>
+                                    </>
+                                )}
                                 <div className="flex-grow"></div>
                                 <button
                                     className="flex items-center text-white font-bold gap-4 bg-brand-dark rounded-full px-8 py-2 mt-8"

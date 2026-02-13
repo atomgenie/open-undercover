@@ -2,6 +2,7 @@ import { useStoreDispatch, useStoreState } from "helpers/redux"
 import { useMemo, useState } from "react"
 import { FiArrowRight, FiPlus, FiUser } from "react-icons/fi"
 import { PlayerCard } from "./components/PlayerCard"
+import { MrWhiteToggle } from "./components/MrWhiteToggle"
 import { Undercovers } from "./components/Undercovers"
 
 export const GameInit: React.FC = () => {
@@ -37,7 +38,11 @@ export const GameInit: React.FC = () => {
         setName("")
     }
 
-    const canStart = useMemo(() => state.players.length >= 3, [state.players.length])
+    const canStart = useMemo(() => {
+        const enemies = state.undercovers + (state.mrWhite ? 1 : 0)
+        const civils = state.players.length - enemies
+        return state.players.length >= 3 && civils > enemies
+    }, [state.players.length, state.undercovers, state.mrWhite])
 
     const handleStart = () => {
         if (!canStart) {
@@ -105,6 +110,7 @@ export const GameInit: React.FC = () => {
                     </div>
                     <div className="flex-grow flex-shrink hidden md:block"></div>
                     <Undercovers />
+                    <MrWhiteToggle />
                     <button
                         className={`rounded-full bg-brand-dark my-3 px-8 py-2 flex text-white items-center gap-4 font-bold text-sm ${
                             !canStart ? "opacity-20" : ""

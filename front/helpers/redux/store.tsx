@@ -24,6 +24,7 @@ export interface State {
     gameStep: GAME_STEPS
     darkMode: boolean
     undercovers: number
+    mrWhite: boolean
 }
 
 const initialState: State = {
@@ -32,6 +33,7 @@ const initialState: State = {
     gameStep: GAME_STEPS.EMPTY,
     darkMode: false,
     undercovers: 1,
+    mrWhite: false,
 }
 
 const StoreContext = createContext<{
@@ -42,7 +44,7 @@ const StoreContext = createContext<{
 const reducer: Reducer<State, Actions> = (state, action) => {
     switch (action.type) {
         case "HYDRATE":
-            return action.state
+            return { ...initialState, ...action.state }
         case "CLEAR":
             return {
                 ...initialState,
@@ -80,8 +82,10 @@ const reducer: Reducer<State, Actions> = (state, action) => {
                     player => player.name !== action.playerName,
                 ),
             }
-        case "SET_UNDERCOVERS":
-            if (action.amount < 1 || action.amount > state.players.length) {
+        case "SET_UNDERCOVERS": {
+            const mwCount = state.mrWhite ? 1 : 0
+            const maxUndercovers = Math.floor((state.players.length - 1) / 2) - mwCount
+            if (action.amount < 1 || action.amount > maxUndercovers) {
                 return state
             }
 
@@ -89,6 +93,17 @@ const reducer: Reducer<State, Actions> = (state, action) => {
                 ...state,
                 undercovers: action.amount,
             }
+        }
+        case "SET_MR_WHITE": {
+            const mwCount = action.enabled ? 1 : 0
+            const max = Math.floor((state.players.length - 1) / 2) - mwCount
+            const newUndercovers = Math.min(state.undercovers, Math.max(1, max))
+            return {
+                ...state,
+                mrWhite: action.enabled,
+                undercovers: newUndercovers,
+            }
+        }
         case "ADD_SCORE":
             return {
                 ...state,

@@ -34,6 +34,8 @@ export const Conclusion: React.FC = () => {
         return isUndercoversWin(undercoversAlive, civilsAlive)
     }, [undercoversAlive, civilsAlive])
 
+    const evilWins = undercoverWins || roundState.mrWhiteGuessedCorrectly
+
     useEffect(() => {
         if (roundState.scoreAdded) {
             return
@@ -45,10 +47,11 @@ export const Conclusion: React.FC = () => {
 
         const scores: { playerName: string; amount: number }[] = roundState.players.map(
             player => {
-                if (player.isUndercover) {
+                const isEvil = player.isUndercover || player.isMrWhite
+                if (isEvil) {
                     return {
                         playerName: player.name,
-                        amount: undercoverWins ? UNDERCOVER_MAX_SCORE : 0,
+                        amount: evilWins ? UNDERCOVER_MAX_SCORE : 0,
                     }
                 } else {
                     return {
@@ -63,7 +66,7 @@ export const Conclusion: React.FC = () => {
             type: "ADD_SCORE",
             score: scores,
         })
-    }, [roundState.players, roundState.scoreAdded, undercoverWins, civilsWins])
+    }, [roundState.players, roundState.scoreAdded, evilWins, civilsWins])
 
     return (
         <div className="flex-grow flex flex-col gap-2 py-4">

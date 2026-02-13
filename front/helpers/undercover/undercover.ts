@@ -2,7 +2,7 @@ import { PlayerRound } from "types/player"
 
 export const getUndercoverAlive = (players: PlayerRound[]) => {
     return players.reduce((prev, curr) => {
-        if (curr.isUndercover && curr.alive) {
+        if ((curr.isUndercover || curr.isMrWhite) && curr.alive) {
             return prev + 1
         }
 
@@ -12,7 +12,7 @@ export const getUndercoverAlive = (players: PlayerRound[]) => {
 
 export const getCivilsAlive = (players: PlayerRound[]) => {
     return players.reduce((prev, curr) => {
-        if (!curr.isUndercover && curr.alive) {
+        if (!curr.isUndercover && !curr.isMrWhite && curr.alive) {
             return prev + 1
         }
 

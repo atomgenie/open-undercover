@@ -8,25 +8,23 @@
     "start": "next start"
   },
   "dependencies": {
-    "autoprefixer": "^10.2.4",
+    "autoprefixer": "^10.4.24",
     "eslint-config-next": "^14.2.35",
     "next": "^14.2.35",
-    "next-pwa": "^5.0.5",
-    "postcss": "^8.2.6",
-    "react": "18",
-    "react-dom": "18",
-    "react-icons": "^4.2.0",
-    "sass": "^1.32.8",
+    "next-pwa": "^5.6.0",
+    "postcss": "^8.5.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^4.12.0",
+    "sass": "^1.97.3",
     "sharp": "^0.34.5",
-    "tailwindcss": "^2.0.3"
+    "tailwindcss": "^2.2.19"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/minimatch": "^6.0.0",
-    "@types/node": "^14.14.31",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
-    "typescript": "^5.9.3",
-    "webpack": "4.4.0"
+    "@types/node": "^22.19.11",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^5.9.3"
   }
 }

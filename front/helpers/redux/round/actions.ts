@@ -39,6 +39,14 @@ interface SetScoreAdd {
     type: "SET_SCORE_ADDED"
 }
 
+interface MrWhiteGuessCorrect {
+    type: "MW_GUESS_CORRECT"
+}
+
+interface MrWhiteGuessWrong {
+    type: "MW_GUESS_WRONG"
+}
+
 export type ActionsRound =
     | SetPlayersRound
     | NextStepAction
@@ -47,3 +55,5 @@ export type ActionsRound =
     | IncrementVoteNumber
     | Reset
     | SetScoreAdd
+    | MrWhiteGuessCorrect
+    | MrWhiteGuessWrong

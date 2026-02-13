@@ -3,13 +3,17 @@ import { useMemo } from "react"
 import { FiMinus, FiPlus } from "react-icons/fi"
 
 export const Undercovers: React.FC = () => {
-    const { undercovers, players } = useStoreState()
+    const { undercovers, players, mrWhite } = useStoreState()
     const dispatch = useStoreDispatch()
 
+    const maxUndercovers = useMemo(
+        () => Math.floor((players.length - 1) / 2) - (mrWhite ? 1 : 0),
+        [players.length, mrWhite],
+    )
     const canMinus = useMemo(() => undercovers > 1, [undercovers])
-    const canPlus = useMemo(() => undercovers < players.length, [
+    const canPlus = useMemo(() => undercovers < maxUndercovers, [
         undercovers,
-        players.length,
+        maxUndercovers,
     ])
 
     return (

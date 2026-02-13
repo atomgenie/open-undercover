@@ -36,6 +36,11 @@ interface SetUndercovers {
     amount: number
 }
 
+interface SetMrWhite {
+    type: "SET_MR_WHITE"
+    enabled: boolean
+}
+
 interface AddScore {
     type: "ADD_SCORE"
     score: { playerName: string; amount: number }[]
@@ -55,5 +60,6 @@ export type Actions =
     | AddPlayer
     | DeletePlayer
     | SetUndercovers
+    | SetMrWhite
     | AddScore
     | HydrateAction

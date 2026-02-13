@@ -7,5 +7,6 @@ export interface PlayerRound {
     name: string
     card: string
     isUndercover: boolean
+    isMrWhite: boolean
     alive: boolean
 }

@@ -11,6 +11,8 @@ export interface RoundState {
     voteNuber: number
     isEnd: boolean
     scoreAdded: boolean
+    mrWhiteGuessing: string | null
+    mrWhiteGuessedCorrectly: boolean
 }
 
 const initalState: RoundState = {
@@ -21,6 +23,8 @@ const initalState: RoundState = {
     voteNuber: 0,
     isEnd: false,
     scoreAdded: false,
+    mrWhiteGuessing: null,
+    mrWhiteGuessedCorrectly: false,
 }
 
 const StoreRoundContext = createContext<{
@@ -45,7 +49,7 @@ const getNextRoundStep = (step: ROUND_STEP): ROUND_STEP => {
 }
 
 const reducer: Reducer<RoundState, ActionsRound> = (state, action) => {
-    let newState: RoundState
+    let newState: RoundState = state
 
     switch (action.type) {
         case "SET_PLAYERS_ROUND":
@@ -69,18 +73,21 @@ const reducer: Reducer<RoundState, ActionsRound> = (state, action) => {
             break
         case "KILL_PLAYER":
             if (!state.isEnd) {
+                const killedPlayer = state.players.find(p => p.name === action.playerName)
+                const newPlayers = state.players.map(player => {
+                    if (player.name !== action.playerName) {
+                        return player
+                    }
+
+                    return {
+                        ...player,
+                        alive: false,
+                    }
+                })
                 newState = {
                     ...state,
-                    players: state.players.map(player => {
-                        if (player.name !== action.playerName) {
-                            return player
-                        }
-
-                        return {
-                            ...player,
-                            alive: false,
-                        }
-                    }),
+                    players: newPlayers,
+                    mrWhiteGuessing: killedPlayer?.isMrWhite ? killedPlayer.name : null,
                 }
             } else {
                 newState = state
@@ -101,9 +108,23 @@ const reducer: Reducer<RoundState, ActionsRound> = (state, action) => {
                 scoreAdded: true,
             }
             break
+        case "MW_GUESS_CORRECT":
+            newState = {
+                ...state,
+                mrWhiteGuessing: null,
+                mrWhiteGuessedCorrectly: true,
+                isEnd: true,
+            }
+            return newState
+        case "MW_GUESS_WRONG":
+            newState = {
+                ...state,
+                mrWhiteGuessing: null,
+            }
+            break
     }
 
-    if (newState.players.length > 0) {
+    if (newState.players.length > 0 && !newState.mrWhiteGuessing) {
         const civilsAlives = getCivilsAlive(newState.players)
         const undercoversAlives = getUndercoverAlive(newState.players)
 

@@ -1,6 +1,7 @@
 import { useRoundDispatcher, useRoundState } from "helpers/redux/round"
 import { useMemo } from "react"
 import { VotePlayer } from "./VotePlayer"
+import { MrWhiteGuess } from "./MrWhiteGuess"
 import {
     getCivilsAlive,
     getUndercoverAlive,
@@ -28,16 +29,19 @@ export const Vote: React.FC = () => {
         return getCivilsAlive(roundState.players)
     }, [roundState.players])
 
+    const mrWhiteWin = roundState.mrWhiteGuessedCorrectly
+
     const isLoose = useMemo(() => {
-        return isUndercoversWin(nbUndercoversAlive, nbCivilsAlive)
-    }, [nbCivilsAlive, nbUndercoversAlive])
+        return isUndercoversWin(nbUndercoversAlive, nbCivilsAlive) || mrWhiteWin
+    }, [nbCivilsAlive, nbUndercoversAlive, mrWhiteWin])
 
     const isWin = useMemo(() => {
-        return isCivilsWin(nbUndercoversAlive)
-    }, [nbUndercoversAlive])
+        return !mrWhiteWin && isCivilsWin(nbUndercoversAlive)
+    }, [nbUndercoversAlive, mrWhiteWin])
 
     return (
         <div className="flex-grow flex flex-col overflow-hidden">
+            <MrWhiteGuess />
             <div className="flex-shrink-0 bg-gray-200 dark:bg-black">
                 <div className="container mx-auto px-2 text-sm py-2">
                     <b>{nbUndercoversAlive}</b> Undercover alive
@@ -49,7 +53,7 @@ export const Vote: React.FC = () => {
                         <div className="bg-white dark:bg-black rounded-full text-brand dark:text-white shadow px-6 py-2 flex items-center gap-4">
                             {isLoose && (
                                 <>
-                                    <div>Undercovers wins</div>
+                                    <div>{mrWhiteWin ? "Mister White guessed the word!" : "Undercovers wins"}</div>
                                     <button
                                         className="rounded-full bg-brand text-white py-1 px-4"
                                         onClick={() => {

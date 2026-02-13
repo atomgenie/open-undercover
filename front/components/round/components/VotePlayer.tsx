@@ -49,7 +49,11 @@ export const VotePlayer: React.FC<props> = ({ player }) => {
                     <div>
                         {player.name} was{" "}
                         <b className="text-brand dark:text-brand-light">
-                            {player.isUndercover ? "Undercover" : "a civil"}
+                            {player.isMrWhite
+                                ? "Mister White"
+                                : player.isUndercover
+                                  ? "Undercover"
+                                  : "a civil"}
                         </b>
                     </div>
                 )}
