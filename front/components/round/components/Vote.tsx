@@ -13,13 +13,11 @@ export const Vote: React.FC = () => {
     const roundState = useRoundState()
     const roundDispatch = useRoundDispatcher()
 
-    const rndIndex = useMemo(() => {
-        return Math.trunc(Math.random() * roundState.players.length)
-    }, [roundState.players.length])
-
     const playerStart = useMemo(() => {
-        return roundState.players[rndIndex]
-    }, [roundState.players, rndIndex])
+        const eligible = roundState.players.filter(p => !p.isMrWhite)
+        const pool = eligible.length > 0 ? eligible : roundState.players
+        return pool[Math.trunc(Math.random() * pool.length)]
+    }, [roundState.players])
 
     const nbUndercoversAlive = useMemo(() => {
         return getUndercoverAlive(roundState.players)
