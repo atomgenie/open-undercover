@@ -96,7 +96,8 @@ export const Distribution: React.FC = () => {
             <div className="container mx-auto px-2">
                 <div className="flex justify-center">
                     <div
-                        className="px-4 py-8 bg-brand rounded-md my-4 shadow-sm flex-grow max-w-sm flex flex-col items-center gap-4"
+                        key={showPlayer}
+                        className="px-4 py-8 bg-brand rounded-md my-4 shadow-sm flex-grow max-w-sm flex flex-col items-center gap-4 animate-fade-in"
                         style={{ minHeight: 500 }}
                     >
                         {showPlayer % STEPS_PER_PLAYER === 0 && (

@@ -89,10 +89,11 @@ export const Conclusion: React.FC = () => {
                 <div className="flex flex-col gap-2 container mx-auto px-2 mt-4">
                     {[...state.players]
                         .sort((playerA, playerB) => playerB.score - playerA.score)
-                        .map(player => (
+                        .map((player, index) => (
                             <div
                                 key={player.name}
-                                className="flex items-center bg-white dark:bg-gray-800 rounded-md py-4 px-4 border border-gray-200 dark:border-gray-700"
+                                className="flex items-center bg-white dark:bg-gray-800 rounded-md py-4 px-4 border border-gray-200 dark:border-gray-700 animate-fade-in-up"
+                                style={{ animationDelay: `${index * 0.08}s` }}
                             >
                                 <div>{player.name}</div>
                                 <div className="flex-grow"></div>
