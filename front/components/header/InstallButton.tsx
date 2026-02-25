@@ -38,7 +38,7 @@ export const InstallButton: React.FC = () => {
 
     return (
         <button
-            className="flex items-center gap-2 opacity-60"
+            className="border-2 border-brand text-brand rounded-lg py-4 px-6 flex items-center gap-4 uppercase text-lg font-bold shadow-sm animate-fade-in-up transition-transform hover:scale-105 active:scale-95"
             onClick={handleInstall}
             aria-label="Install app"
         >
