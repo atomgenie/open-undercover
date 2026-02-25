@@ -25,8 +25,8 @@ export const MrWhiteGuess: React.FC = () => {
     }
 
     return (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-sm w-full mx-4 flex flex-col items-center gap-4">
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 animate-fade-in">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-sm w-full mx-4 flex flex-col items-center gap-4 animate-fade-in-scale">
                 <div className="text-2xl font-bold text-center">
                     Mister White
                 </div>

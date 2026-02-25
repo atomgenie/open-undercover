@@ -96,7 +96,8 @@ export const Distribution: React.FC = () => {
             <div className="container mx-auto px-2">
                 <div className="flex justify-center">
                     <div
-                        className="px-4 py-8 bg-brand rounded-md my-4 shadow-sm flex-grow max-w-sm flex flex-col items-center gap-4"
+                        key={showPlayer}
+                        className="px-4 py-8 bg-brand rounded-md my-4 shadow-sm flex-grow max-w-sm flex flex-col items-center gap-4 animate-fade-in-up"
                         style={{ minHeight: 500 }}
                     >
                         {showPlayer % STEPS_PER_PLAYER === 0 && (
@@ -130,7 +131,10 @@ export const Distribution: React.FC = () => {
                                     {currentPlayer.name}
                                 </div>
                                 {currentPlayer.isMrWhite ? (
-                                    <>
+                                    <div
+                                        className="flex flex-col items-center gap-2 animate-fade-in-up"
+                                        style={{ animationDelay: "0.15s" }}
+                                    >
                                         <div className="text-white/70 text-sm">
                                             You are
                                         </div>
@@ -140,16 +144,19 @@ export const Distribution: React.FC = () => {
                                         <div className="text-white/70 text-sm text-center">
                                             You have no word. Try to blend in!
                                         </div>
-                                    </>
+                                    </div>
                                 ) : (
-                                    <>
+                                    <div
+                                        className="flex flex-col items-center gap-2 animate-fade-in-up"
+                                        style={{ animationDelay: "0.15s" }}
+                                    >
                                         <div className="text-white/70 text-sm">
                                             This is your word
                                         </div>
                                         <div className="text-3xl text-white font-bold text-center mt-4">
                                             {currentPlayer.card}
                                         </div>
-                                    </>
+                                    </div>
                                 )}
                                 <div className="flex-grow"></div>
                                 <button

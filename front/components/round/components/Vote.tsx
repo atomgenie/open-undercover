@@ -1,5 +1,5 @@
 import { useRoundDispatcher, useRoundState } from "helpers/redux/round"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { VotePlayer } from "./VotePlayer"
 import { MrWhiteGuess } from "./MrWhiteGuess"
 import {
@@ -8,6 +8,7 @@ import {
     isCivilsWin,
     isUndercoversWin,
 } from "helpers/undercover"
+import confetti from "canvas-confetti"
 
 export const Vote: React.FC = () => {
     const roundState = useRoundState()
@@ -37,6 +38,28 @@ export const Vote: React.FC = () => {
         return !mrWhiteWin && isCivilsWin(nbUndercoversAlive)
     }, [nbUndercoversAlive, mrWhiteWin])
 
+    useEffect(() => {
+        if (isWin) {
+            confetti({
+                particleCount: 180,
+                spread: 90,
+                origin: { y: 0.55 },
+                colors: ["#6602cc", "#ecdbff", "#ffffff", "#a855f7"],
+            })
+        } else if (isLoose) {
+            const fire = (angle: number, origin: { x: number }) =>
+                confetti({
+                    particleCount: 60,
+                    angle,
+                    spread: 55,
+                    origin: { ...origin, y: 0.6 },
+                    colors: ["#f97316", "#ef4444", "#fbbf24", "#ffffff"],
+                })
+            fire(60, { x: 0 })
+            fire(120, { x: 1 })
+        }
+    }, [isWin, isLoose])
+
     return (
         <div className="flex-grow flex flex-col overflow-hidden">
             <MrWhiteGuess />
@@ -48,7 +71,10 @@ export const Vote: React.FC = () => {
             <div className="flex-grow flex-shrink overflow-y-auto">
                 <div className="container mx-auto px-2 flex flex-col gap-6">
                     <div className="flex justify-center mt-6 sticky top-6">
-                        <div className="bg-white dark:bg-black rounded-full text-brand dark:text-white shadow-sm px-6 py-2 flex items-center gap-4">
+                        <div
+                            key={`${isWin}-${isLoose}`}
+                            className="bg-white dark:bg-black rounded-full text-brand dark:text-white shadow-sm px-6 py-2 flex items-center gap-4 animate-slide-in-down"
+                        >
                             {isLoose && (
                                 <>
                                     <div>{mrWhiteWin ? "Mister White guessed the word!" : "Undercovers wins"}</div>

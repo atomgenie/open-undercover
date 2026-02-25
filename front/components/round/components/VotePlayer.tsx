@@ -46,7 +46,7 @@ export const VotePlayer: React.FC<props> = ({ player }) => {
                     </div>
                 )}
                 {!player.alive && (
-                    <div>
+                    <div className="animate-fade-in-scale text-center">
                         {player.name} was{" "}
                         <b className="text-brand dark:text-brand-light">
                             {player.isMrWhite
