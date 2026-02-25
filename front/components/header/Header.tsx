@@ -33,17 +33,7 @@ export const Header: React.FC = () => {
                     <div className="text-sm">Open-Undercover</div>
                 </div>
                 <div className="flex-grow flex-shrink"></div>
-                {state.gameStep === GAME_STEPS.EMPTY ? (
-                    <button
-                        onClick={() => {
-                            dispatch({
-                                type: "INIT",
-                            })
-                        }}
-                    >
-                        Start a game
-                    </button>
-                ) : (
+                {state.gameStep !== GAME_STEPS.EMPTY && (
                     <button
                         className="flex items-center gap-2 opacity-60"
                         onClick={resetGame}

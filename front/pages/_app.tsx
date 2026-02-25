@@ -21,7 +21,7 @@ const MyApp = ({ Component, pageProps }: any) => {
                     name="viewport"
                     content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
                 />
-                <link rel="apple-touch-icon" href="/apple-icon.png"></link>
+                <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
                 <meta name="theme-color" content="#6605cc" />
                 <title>Open Undercover</title>
             </Head>
