@@ -1,6 +1,7 @@
 import { useStoreState, GAME_STEPS, useStoreDispatch } from "helpers/redux"
 import { FiSun, FiMoon, FiRefreshCw } from "react-icons/fi"
 import Image from "next/image"
+import { InstallButton } from "./InstallButton"
 
 export const Header: React.FC = () => {
     const state = useStoreState()
@@ -33,6 +34,7 @@ export const Header: React.FC = () => {
                     <div className="text-sm">Open-Undercover</div>
                 </div>
                 <div className="flex-grow flex-shrink"></div>
+                <InstallButton />
                 {state.gameStep === GAME_STEPS.EMPTY ? (
                     <button
                         onClick={() => {
