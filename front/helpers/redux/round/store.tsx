@@ -55,7 +55,7 @@ const reducer: Reducer<RoundState, ActionsRound> = (state, action) => {
         case "SET_PLAYERS_ROUND":
             newState = {
                 ...state,
-                players: action.players,
+                players: action.players.map(p => ({ ...p, eliminatedAtVote: null })),
             }
             break
         case "NEXT_STEP":
@@ -82,6 +82,7 @@ const reducer: Reducer<RoundState, ActionsRound> = (state, action) => {
                     return {
                         ...player,
                         alive: false,
+                        eliminatedAtVote: state.voteNuber,
                     }
                 })
                 newState = {
