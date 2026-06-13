@@ -1,4 +1,5 @@
 import { useRoundDispatcher, useRoundState } from "helpers/redux/round"
+import { Language, WORDS } from "helpers/words"
 import { useState } from "react"
 
 export const MrWhiteGuess: React.FC = () => {
@@ -11,11 +12,14 @@ export const MrWhiteGuess: React.FC = () => {
     }
 
     const handleSubmit = () => {
-        const trimmed = guess.trim()
+        const trimmed = guess.trim().toLowerCase()
         if (!trimmed) return
 
-        const isCorrect =
-            trimmed.toLowerCase() === roundState.validWord.toLowerCase()
+        const pair = WORDS[roundState.wordPairIndex]
+        const langs: Language[] = ["fr", "en", "es"]
+        const isCorrect = langs.some(
+            lang => trimmed === pair[lang][roundState.validWordIndex].toLowerCase(),
+        )
 
         if (isCorrect) {
             roundDispatch({ type: "MW_GUESS_CORRECT" })

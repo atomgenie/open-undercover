@@ -1,3 +1,4 @@
+import { Language } from "helpers/words"
 import { Player } from "types/player"
 
 interface CleanAction {
@@ -51,6 +52,12 @@ interface HydrateAction {
     state: any
 }
 
+interface SetPlayerLanguage {
+    type: "SET_PLAYER_LANGUAGE"
+    playerName: string
+    language: Language
+}
+
 export type Actions =
     | CleanAction
     | InitAction
@@ -63,3 +70,4 @@ export type Actions =
     | SetMrWhite
     | AddScore
     | HydrateAction
+    | SetPlayerLanguage

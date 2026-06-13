@@ -8,7 +8,10 @@ import { DarkMode } from "components/dark-mode"
 
 const MyApp = ({ Component, pageProps }: any) => {
     useEffect(() => {
-        if ("serviceWorker" in navigator) {
+        const isProd =
+            process.env.NODE_ENV === "production" &&
+            process.env.NEXT_PUBLIC_VERCEL_ENV !== "preview"
+        if (isProd && "serviceWorker" in navigator) {
             navigator.serviceWorker.register("/sw.js")
         }
     }, [])
