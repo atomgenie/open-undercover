@@ -2,7 +2,7 @@ import { getInitials } from "helpers/player"
 import { useStoreDispatch, useStoreState } from "helpers/redux"
 import { useRoundDispatcher, useRoundState } from "helpers/redux/round"
 import { Language, LANGUAGE_LABELS, WORDS } from "helpers/words"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { FiArrowRight } from "react-icons/fi"
 import { PlayerRound } from "types/player"
 
@@ -20,35 +20,30 @@ export const Distribution: React.FC = () => {
      */
     const [showPlayer, setShowPlayer] = useState(0)
 
-    const mrWhitePlayer: string | null = useMemo(() => {
-        if (!mrWhite) return null
-        const idx = Math.trunc(Math.random() * players.length)
-        return players[idx].name
-    }, [players, mrWhite])
+    // Capture the player list once at mount so language changes don't re-randomize roles.
+    const initialPlayers = useRef(players)
 
-    const undercoversRound: string[] = useMemo(() => {
-        let allPlayers = players
-            .map(player => player.name)
-            .filter(name => name !== mrWhitePlayer)
+    // Compute role assignments once at mount — must not re-run when language changes.
+    const [[mrWhitePlayer, undercoversRound]] = useState<[string | null, string[]]>(() => {
+        const pool = initialPlayers.current
+        const mw = mrWhite ? pool[Math.trunc(Math.random() * pool.length)].name : null
 
-        let selectedPlayers: string[] = []
+        let remaining = pool.map(p => p.name).filter(n => n !== mw)
+        let selected: string[] = []
 
         for (let i = 0; i < undercovers; i++) {
-            if (allPlayers.length === 0) {
-                break
-            }
-
-            const selected = Math.trunc(Math.random() * allPlayers.length)
-            const seletedPlayerName = allPlayers[selected]
-            selectedPlayers = [...selectedPlayers, seletedPlayerName]
-            allPlayers = allPlayers.filter(player => player !== seletedPlayerName)
+            if (remaining.length === 0) break
+            const idx = Math.trunc(Math.random() * remaining.length)
+            const name = remaining[idx]
+            selected = [...selected, name]
+            remaining = remaining.filter(p => p !== name)
         }
 
-        return selectedPlayers
-    }, [players, undercovers, mrWhitePlayer])
+        return [mw, selected]
+    })
 
     const playersWithWord = useMemo((): PlayerRound[] => {
-        return players.map(player => {
+        return initialPlayers.current.map(player => {
             const isUndercover = undercoversRound.some(name => player.name === name)
             const isMrWhite = player.name === mrWhitePlayer
             return {
@@ -60,7 +55,7 @@ export const Distribution: React.FC = () => {
                 name: player.name,
             }
         })
-    }, [players, undercoversRound, mrWhitePlayer, roundState.undercoverWord, roundState.validWord])
+    }, [undercoversRound, mrWhitePlayer, roundState.undercoverWord, roundState.validWord])
 
     useEffect(() => {
         roundDispatch({
