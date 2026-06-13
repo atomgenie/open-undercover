@@ -30,7 +30,7 @@
     {"fr": ["Bague", "Collier"], "en": ["Ring", "Necklace"], "es": ["Anillo", "Collar"]},
     {"fr": ["Baguette", "Croissant"], "en": ["Baguette", "Croissant"], "es": ["Baguette", "Croissant"]},
     {"fr": ["Baleine", "Requin"], "en": ["Whale", "Shark"], "es": ["Ballena", "Tiburón"]},
-    {"fr": ["Ballon", "Balle"], "en": ["Ball", "Ball"], "es": ["Balón", "Pelota"]},
+    {"fr": ["Ballon", "Balle"], "en": ["Balloon", "Ball"], "es": ["Balón", "Pelota"]},
     {"fr": ["Banane", "Orange"], "en": ["Banana", "Orange"], "es": ["Plátano", "Naranja"]},
     {"fr": ["Banc", "Chaise"], "en": ["Bench", "Chair"], "es": ["Banco", "Silla"]},
     {"fr": ["Banque", "Mairie"], "en": ["Bank", "Town Hall"], "es": ["Banco", "Ayuntamiento"]},
