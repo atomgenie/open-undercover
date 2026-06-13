@@ -22,13 +22,15 @@ export const Round: React.FC = () => {
         const randPosition = Math.trunc(Math.random() * WORDS.length)
         const randUndercover = Math.trunc(Math.random() * 2) as 0 | 1
 
-        const valid = WORDS[randPosition][randUndercover]
-        const undercoverWord = WORDS[randPosition][1 - randUndercover]
+        const valid = WORDS[randPosition].fr[randUndercover]
+        const undercoverWord = WORDS[randPosition].fr[1 - randUndercover]
 
         roundDispatch({
             type: "SET_WORDS",
             undercoverWord: undercoverWord,
             validWord: valid,
+            wordPairIndex: randPosition,
+            validWordIndex: randUndercover,
         })
 
         roundDispatch({ type: "NEXT_STEP" })

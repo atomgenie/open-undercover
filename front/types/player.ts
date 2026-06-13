@@ -1,6 +1,9 @@
+import { Language } from "helpers/words"
+
 export interface Player {
     name: string
     score: number
+    language?: Language
 }
 
 export interface PlayerRound {

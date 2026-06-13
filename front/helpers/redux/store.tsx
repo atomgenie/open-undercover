@@ -104,6 +104,15 @@ const reducer: Reducer<State, Actions> = (state, action) => {
                 undercovers: newUndercovers,
             }
         }
+        case "SET_PLAYER_LANGUAGE":
+            return {
+                ...state,
+                players: state.players.map(player =>
+                    player.name === action.playerName
+                        ? { ...player, language: action.language }
+                        : player,
+                ),
+            }
         case "ADD_SCORE":
             return {
                 ...state,

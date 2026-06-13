@@ -20,6 +20,8 @@ interface SetWords {
     type: "SET_WORDS"
     validWord: string
     undercoverWord: string
+    wordPairIndex: number
+    validWordIndex: 0 | 1
 }
 
 interface KillPlayer {

@@ -1,6 +1,7 @@
 import { getInitials } from "helpers/player"
-import { useStoreState } from "helpers/redux"
+import { useStoreDispatch, useStoreState } from "helpers/redux"
 import { useRoundDispatcher, useRoundState } from "helpers/redux/round"
+import { Language, LANGUAGE_LABELS, WORDS } from "helpers/words"
 import { useEffect, useMemo, useState } from "react"
 import { FiArrowRight } from "react-icons/fi"
 import { PlayerRound } from "types/player"
@@ -11,6 +12,7 @@ export const Distribution: React.FC = () => {
     const { players, undercovers, mrWhite } = useStoreState()
     const roundState = useRoundState()
     const roundDispatch = useRoundDispatcher()
+    const storeDispatch = useStoreDispatch()
 
     /** if 0: show the player 0 without his word. If 1, show the player 0 with his word
      *  if 2: show the player 1 without his word. If 3, show the player 1 with his card
@@ -74,6 +76,31 @@ export const Distribution: React.FC = () => {
 
         return roundState.players[Math.trunc(showPlayer / STEPS_PER_PLAYER)]
     }, [roundState.players, showPlayer])
+
+    const currentPlayerGlobal = useMemo(() => {
+        if (!currentPlayer) return undefined
+        return players.find(p => p.name === currentPlayer.name)
+    }, [currentPlayer, players])
+
+    const currentLanguage: Language = currentPlayerGlobal?.language ?? "fr"
+
+    const getWordInLanguage = (lang: Language): string => {
+        if (!currentPlayer || currentPlayer.isMrWhite) return ""
+        const pair = WORDS[roundState.wordPairIndex]
+        const idx = currentPlayer.isUndercover
+            ? (1 - roundState.validWordIndex)
+            : roundState.validWordIndex
+        return pair[lang][idx]
+    }
+
+    const handleLanguageChange = (lang: Language) => {
+        if (!currentPlayer) return
+        storeDispatch({
+            type: "SET_PLAYER_LANGUAGE",
+            playerName: currentPlayer.name,
+            language: lang,
+        })
+    }
 
     const handleNext = () => {
         if (showPlayer >= roundState.players.length * STEPS_PER_PLAYER - 1) {
@@ -148,14 +175,29 @@ export const Distribution: React.FC = () => {
                                     </div>
                                 ) : (
                                     <div
-                                        className="flex flex-col items-center gap-2 animate-fade-in-up"
+                                        className="flex flex-col items-center gap-2 animate-fade-in-up w-full"
                                         style={{ animationDelay: "0.15s" }}
                                     >
                                         <div className="text-white/70 text-sm">
                                             This is your word
                                         </div>
                                         <div className="text-3xl text-white font-bold text-center mt-4">
-                                            {currentPlayer.card}
+                                            {getWordInLanguage(currentLanguage)}
+                                        </div>
+                                        <div className="flex gap-2 mt-4">
+                                            {(["fr", "en", "es"] as Language[]).map(lang => (
+                                                <button
+                                                    key={lang}
+                                                    className={`px-4 py-1 rounded-full text-sm font-bold transition-colors ${
+                                                        currentLanguage === lang
+                                                            ? "bg-white text-brand"
+                                                            : "bg-brand-dark text-white/70 hover:text-white"
+                                                    }`}
+                                                    onClick={() => handleLanguageChange(lang)}
+                                                >
+                                                    {LANGUAGE_LABELS[lang]}
+                                                </button>
+                                            ))}
                                         </div>
                                     </div>
                                 )}

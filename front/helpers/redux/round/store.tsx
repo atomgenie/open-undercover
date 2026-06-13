@@ -8,6 +8,8 @@ export interface RoundState {
     players: PlayerRound[]
     validWord: string
     undercoverWord: string
+    wordPairIndex: number
+    validWordIndex: 0 | 1
     voteNuber: number
     isEnd: boolean
     scoreAdded: boolean
@@ -20,6 +22,8 @@ const initalState: RoundState = {
     players: [],
     validWord: "",
     undercoverWord: "",
+    wordPairIndex: 0,
+    validWordIndex: 0,
     voteNuber: 0,
     isEnd: false,
     scoreAdded: false,
@@ -69,6 +73,8 @@ const reducer: Reducer<RoundState, ActionsRound> = (state, action) => {
                 ...state,
                 undercoverWord: action.undercoverWord,
                 validWord: action.validWord,
+                wordPairIndex: action.wordPairIndex,
+                validWordIndex: action.validWordIndex,
             }
             break
         case "KILL_PLAYER":
