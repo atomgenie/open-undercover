@@ -15,7 +15,7 @@ export const Distribution: React.FC = () => {
     const storeDispatch = useStoreDispatch()
 
     /** if 0: show the player 0 without his word. If 1, show the player 0 with his word
-     *  if 2: show the player 1 without his word. If 3, show the player 1 with his card
+     *  if 2: show the player 1 without his word. If 3, show the player 1 with his word
      *  ...etc
      */
     const [showPlayer, setShowPlayer] = useState(0)
@@ -49,7 +49,6 @@ export const Distribution: React.FC = () => {
             return {
                 alive: true,
                 eliminatedAtVote: null,
-                card: isMrWhite ? "" : isUndercover ? roundState.undercoverWord : roundState.validWord,
                 isUndercover: isUndercover,
                 isMrWhite: isMrWhite,
                 name: player.name,
