@@ -51,6 +51,7 @@ export const Distribution: React.FC = () => {
             const isMrWhite = player.name === mrWhitePlayer
             return {
                 alive: true,
+                eliminatedAtVote: null,
                 card: isMrWhite ? "" : isUndercover ? roundState.undercoverWord : roundState.validWord,
                 isUndercover: isUndercover,
                 isMrWhite: isMrWhite,

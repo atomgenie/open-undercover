@@ -9,4 +9,5 @@ export interface PlayerRound {
     isUndercover: boolean
     isMrWhite: boolean
     alive: boolean
+    eliminatedAtVote: number | null
 }
