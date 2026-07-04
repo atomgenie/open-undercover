@@ -126,6 +126,17 @@ The best pairs create **table drama** — moments where two players give clues t
 share a strong stereotype but flip one trait (`["Ange", "Démon"]`, `["Chat",
 "Tigre"]`) reliably produce this.
 
+### 3.8 Survive Mr. White
+Mr. White has **no word** and, if eliminated, gets one chance to *guess the civilian
+word* from everything he's heard — a correct guess steals the win. This creates a
+double-bind that good pairs quietly protect: Civilians must reveal enough to find each
+other, yet not so much that Mr. White can name the word outright. A well-chosen pair
+helps automatically, because the **shared category keeps early clues generic** ("it's
+a sea animal") — describing the *bucket*, not the specific word. Pairs where the
+civilian word is so iconic that a single honest clue basically *is* the answer give
+Mr. White an easy steal. If one clue would let an outsider guess the exact word, the
+pair leans too easy on this axis.
+
 ---
 
 ## 4. Anti-patterns (avoid these)
@@ -158,6 +169,21 @@ Reliable patterns that consistently land in the sweet spot:
 
 Every one of these is a real, strong pair already in this database. When in doubt,
 start from a category you love and find its two closest-but-distinguishable members.
+
+A few more classic pairs from other Undercover implementations that show the sweet
+spot from a different angle: `Sofa / Armchair` (same furniture, axis = *seats one vs.
+many*), `Moustache / Beard`, `Apartment / House`, `Magnet / Sticker` (both stick to
+things), `Limousine / Truck`, `Football / Basketball`. Notice how each shares an
+obvious bucket and diverges on exactly one describable trait.
+
+### 5.1 Categories to mine for pairs
+
+Commercial versions of the game organize thousands of pairs into ~15 categories. They
+make an excellent brainstorming checklist — pick one and hunt for two adjacent members:
+
+> Food & Drink · Animals · Objects · Jobs & Roles · Entertainment · Nature & Weather ·
+> Sports & Fitness · Technology & Digital · Travel & Places · Relationships ·
+> Brands & Companies · Historical Figures · Movies · Funny · Internet Slang
 
 ---
 
@@ -229,6 +255,28 @@ all of 1–7, keep tuning.
 > Describe word A out loud for 15 seconds using only true statements. If **most** of
 > them are *also* true of word B, and you eventually have to say something that's true
 > of A but **not** B — congratulations, it's a perfect pair.
+
+---
+
+## 8. Further reading & sources
+
+The principles above are grounded in how the game is actually played and echo guidance
+from the commercial and community versions of Undercover:
+
+- [Official rules — Undercover™: Word Party Game (Yanstar Studio)](https://www.yanstarstudio.com/undercover-how-to-play)
+  — confirms the core loop: Civilians share a word, Undercovers get a *slightly
+  different* one, Mr. White gets none.
+- [undercover.gg — word pairs & categories](https://undercover.gg/words) — a large
+  community pair database organized by category.
+- [antebrl/undercover-word-game](https://github.com/antebrl/undercover-word-game) and
+  [Pablo-Rio/undercover](https://github.com/Pablo-Rio/undercover) — other open-source
+  implementations that welcome community word-pair contributions.
+- [Imposter/Undercover how-to-play tutorial — Game On Family](https://gameonfamily.com/blogs/tutorials/imposter)
+  — reinforces the guiding idea: the two words must be *close enough to bluff with, yet
+  distinct enough for Civilians to eventually tell apart* — the Goldilocks gap.
+
+The consistent takeaway across all of them matches Section 2: aim for the sweet spot of
+semantic distance. Everything else in this guide is a way to hit it reliably.
 
 ---
 
