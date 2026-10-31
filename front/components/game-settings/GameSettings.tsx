@@ -2,7 +2,15 @@ import { useStoreDispatch, useStoreState } from "helpers/redux"
 import { getInitials, isPlayerNameValid } from "helpers/player"
 import { canStartGame } from "helpers/undercover"
 import { useEffect, useMemo, useState } from "react"
-import { FiCheck, FiPlus, FiRefreshCw, FiSettings, FiX } from "react-icons/fi"
+import {
+    FiCheck,
+    FiChevronDown,
+    FiChevronUp,
+    FiPlus,
+    FiRefreshCw,
+    FiSettings,
+    FiX,
+} from "react-icons/fi"
 import { Undercovers } from "components/game-init/components/Undercovers"
 import { MrWhiteToggle } from "components/game-init/components/MrWhiteToggle"
 
@@ -96,7 +104,10 @@ export const GameSettings: React.FC<props> = ({ open, onClose }) => {
 
                 <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200 dark:border-gray-700">
                     <FiSettings className="text-lg text-brand dark:text-brand-light" />
-                    <h2 id="game-settings-title" className="font-bold text-base flex-grow">
+                    <h2
+                        id="game-settings-title"
+                        className="font-bold text-base flex-grow"
+                    >
                         Game settings
                     </h2>
                     <button
@@ -148,12 +159,56 @@ export const GameSettings: React.FC<props> = ({ open, onClose }) => {
                             </button>
                         </form>
 
+                        {players.length > 1 && (
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                Players reveal their word and are listed in this order.
+                            </p>
+                        )}
+
                         <ul className="flex flex-col gap-2">
-                            {players.map(player => (
+                            {players.map((player, index) => (
                                 <li
                                     key={player.name}
-                                    className="flex items-center gap-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 pl-3 pr-1 py-1"
+                                    className="flex items-center gap-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 pl-1 pr-1 py-1"
                                 >
+                                    <div className="flex flex-col flex-shrink-0">
+                                        <button
+                                            className={`h-6 w-9 flex items-center justify-center rounded-md text-lg text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 ${
+                                                index === 0
+                                                    ? "opacity-20 cursor-default"
+                                                    : ""
+                                            }`}
+                                            onClick={() =>
+                                                dispatch({
+                                                    type: "MOVE_PLAYER",
+                                                    playerName: player.name,
+                                                    offset: -1,
+                                                })
+                                            }
+                                            disabled={index === 0}
+                                            aria-label={`Move ${player.name} up`}
+                                        >
+                                            <FiChevronUp />
+                                        </button>
+                                        <button
+                                            className={`h-6 w-9 flex items-center justify-center rounded-md text-lg text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 ${
+                                                index === players.length - 1
+                                                    ? "opacity-20 cursor-default"
+                                                    : ""
+                                            }`}
+                                            onClick={() =>
+                                                dispatch({
+                                                    type: "MOVE_PLAYER",
+                                                    playerName: player.name,
+                                                    offset: 1,
+                                                })
+                                            }
+                                            disabled={index === players.length - 1}
+                                            aria-label={`Move ${player.name} down`}
+                                        >
+                                            <FiChevronDown />
+                                        </button>
+                                    </div>
                                     <div className="h-9 w-9 flex-shrink-0 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center font-bold">
                                         {getInitials(player.name)}
                                     </div>
