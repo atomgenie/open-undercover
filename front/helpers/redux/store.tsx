@@ -89,6 +89,22 @@ const reducer: Reducer<State, Actions> = (state, action) => {
                 undercovers: Math.min(state.undercovers, Math.max(1, max)),
             }
         }
+        case "MOVE_PLAYER": {
+            const from = state.players.findIndex(
+                player => player.name === action.playerName,
+            )
+            const to = from + action.offset
+            if (from === -1 || to < 0 || to >= state.players.length) {
+                return state
+            }
+
+            const players = [...state.players]
+            ;[players[from], players[to]] = [players[to], players[from]]
+            return {
+                ...state,
+                players,
+            }
+        }
         case "RESTART_ROUND":
             return {
                 ...state,

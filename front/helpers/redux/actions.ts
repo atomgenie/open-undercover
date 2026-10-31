@@ -32,6 +32,12 @@ interface DeletePlayer {
     playerName: string
 }
 
+interface MovePlayer {
+    type: "MOVE_PLAYER"
+    playerName: string
+    offset: -1 | 1
+}
+
 interface SetUndercovers {
     type: "SET_UNDERCOVERS"
     amount: number
@@ -70,6 +76,7 @@ export type Actions =
     | TriggerDarkMode
     | AddPlayer
     | DeletePlayer
+    | MovePlayer
     | SetUndercovers
     | SetMrWhite
     | AddScore
