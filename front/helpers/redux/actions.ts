@@ -52,6 +52,10 @@ interface HydrateAction {
     state: any
 }
 
+interface RestartRound {
+    type: "RESTART_ROUND"
+}
+
 interface SetPlayerLanguage {
     type: "SET_PLAYER_LANGUAGE"
     playerName: string
@@ -71,3 +75,4 @@ export type Actions =
     | AddScore
     | HydrateAction
     | SetPlayerLanguage
+    | RestartRound

@@ -10,6 +10,7 @@ import {
 } from "react"
 
 import { Player } from "types/player"
+import { getMaxUndercovers } from "helpers/undercover"
 import { Actions } from "./actions"
 
 export enum GAME_STEPS {
@@ -25,6 +26,7 @@ export interface State {
     darkMode: boolean
     undercovers: number
     mrWhite: boolean
+    roundId: number
 }
 
 const initialState: State = {
@@ -34,6 +36,7 @@ const initialState: State = {
     darkMode: false,
     undercovers: 1,
     mrWhite: false,
+    roundId: 0,
 }
 
 const StoreContext = createContext<{
@@ -75,16 +78,24 @@ const reducer: Reducer<State, Actions> = (state, action) => {
                 ...state,
                 players: [...state.players, action.player],
             }
-        case "DELETE_PLAYER":
+        case "DELETE_PLAYER": {
+            const players = state.players.filter(
+                player => player.name !== action.playerName,
+            )
+            const max = getMaxUndercovers(players.length, state.mrWhite)
             return {
                 ...state,
-                players: state.players.filter(
-                    player => player.name !== action.playerName,
-                ),
+                players,
+                undercovers: Math.min(state.undercovers, Math.max(1, max)),
+            }
+        }
+        case "RESTART_ROUND":
+            return {
+                ...state,
+                roundId: state.roundId + 1,
             }
         case "SET_UNDERCOVERS": {
-            const mwCount = state.mrWhite ? 1 : 0
-            const maxUndercovers = Math.floor((state.players.length - 1) / 2) - mwCount
+            const maxUndercovers = getMaxUndercovers(state.players.length, state.mrWhite)
             if (action.amount < 1 || action.amount > maxUndercovers) {
                 return state
             }
@@ -95,8 +106,7 @@ const reducer: Reducer<State, Actions> = (state, action) => {
             }
         }
         case "SET_MR_WHITE": {
-            const mwCount = action.enabled ? 1 : 0
-            const max = Math.floor((state.players.length - 1) / 2) - mwCount
+            const max = getMaxUndercovers(state.players.length, action.enabled)
             const newUndercovers = Math.min(state.undercovers, Math.max(1, max))
             return {
                 ...state,

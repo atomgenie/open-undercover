@@ -1,4 +1,5 @@
 import { useStoreDispatch, useStoreState } from "helpers/redux"
+import { getMaxUndercovers } from "helpers/undercover"
 import { useMemo } from "react"
 import { FiMinus, FiPlus } from "react-icons/fi"
 
@@ -7,7 +8,7 @@ export const Undercovers: React.FC = () => {
     const dispatch = useStoreDispatch()
 
     const maxUndercovers = useMemo(
-        () => Math.floor((players.length - 1) / 2) - (mrWhite ? 1 : 0),
+        () => getMaxUndercovers(players.length, mrWhite),
         [players.length, mrWhite],
     )
     const canMinus = useMemo(() => undercovers > 1, [undercovers])
@@ -23,7 +24,7 @@ export const Undercovers: React.FC = () => {
                 <span className="font-bold">{undercovers}</span>
             </div>
             <button
-                className={`rounded-full flex items-center justify-center bg-brand-light text-brand h-6 w-6 outline-hidden flex-shrink-0 ${
+                className={`rounded-full flex items-center justify-center bg-brand-light text-brand h-8 w-8 outline-hidden flex-shrink-0 ${
                     !canMinus ? "opacity-20 cursor-default" : ""
                 }`}
                 disabled={!canMinus}
@@ -41,7 +42,7 @@ export const Undercovers: React.FC = () => {
                 <FiMinus />
             </button>
             <button
-                className={`rounded-full flex items-center justify-center bg-brand-light text-brand h-6 w-6 outline-hidden flex-shrink-0 ${
+                className={`rounded-full flex items-center justify-center bg-brand-light text-brand h-8 w-8 outline-hidden flex-shrink-0 ${
                     !canPlus ? "opacity-20 cursor-default" : ""
                 }`}
                 disabled={!canPlus}

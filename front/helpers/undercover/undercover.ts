@@ -36,3 +36,17 @@ export const isEnd = (undercoverAlives: number, civilsAlives: number): boolean =
         isCivilsWin(undercoverAlives) || isUndercoversWin(undercoverAlives, civilsAlives)
     )
 }
+
+export const getMaxUndercovers = (playerCount: number, mrWhite: boolean): number => {
+    return Math.floor((playerCount - 1) / 2) - (mrWhite ? 1 : 0)
+}
+
+export const canStartGame = (
+    playerCount: number,
+    undercovers: number,
+    mrWhite: boolean,
+): boolean => {
+    const enemies = undercovers + (mrWhite ? 1 : 0)
+    const civils = playerCount - enemies
+    return playerCount >= 3 && civils > enemies
+}
