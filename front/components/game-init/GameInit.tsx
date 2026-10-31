@@ -1,4 +1,6 @@
 import { useStoreDispatch, useStoreState } from "helpers/redux"
+import { isPlayerNameValid } from "helpers/player"
+import { canStartGame } from "helpers/undercover"
 import { useMemo, useState } from "react"
 import { FiArrowRight, FiPlus, FiUser } from "react-icons/fi"
 import { PlayerCard } from "./components/PlayerCard"
@@ -11,19 +13,10 @@ export const GameInit: React.FC = () => {
 
     const [name, setName] = useState("")
 
-    const isNameValid = useMemo((): boolean => {
-        if (name === "") {
-            return false
-        }
-
-        for (const player of state.players) {
-            if (player.name === name) {
-                return false
-            }
-        }
-
-        return true
-    }, [name, state.players])
+    const isNameValid = useMemo(
+        () => isPlayerNameValid(name, state.players),
+        [name, state.players],
+    )
 
     const handleAddPlayer = () => {
         if (!isNameValid) {
@@ -32,17 +25,16 @@ export const GameInit: React.FC = () => {
 
         dispatch({
             type: "ADD_PLAYER",
-            player: { name, score: 0 },
+            player: { name: name.trim(), score: 0 },
         })
 
         setName("")
     }
 
-    const canStart = useMemo(() => {
-        const enemies = state.undercovers + (state.mrWhite ? 1 : 0)
-        const civils = state.players.length - enemies
-        return state.players.length >= 3 && civils > enemies
-    }, [state.players.length, state.undercovers, state.mrWhite])
+    const canStart = useMemo(
+        () => canStartGame(state.players.length, state.undercovers, state.mrWhite),
+        [state.players.length, state.undercovers, state.mrWhite],
+    )
 
     const handleStart = () => {
         if (!canStart) {

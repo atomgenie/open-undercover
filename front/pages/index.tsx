@@ -5,7 +5,7 @@ import { Round } from "components/round/Round"
 import { StoreRoundProvider } from "helpers/redux/round/store"
 
 const Home: React.FC = () => {
-    const { gameStep } = useStoreState()
+    const { gameStep, roundId } = useStoreState()
 
     const content = (() => {
         switch (gameStep) {
@@ -15,7 +15,7 @@ const Home: React.FC = () => {
                 return <GameInit />
             case GAME_STEPS.STARTED:
                 return (
-                    <StoreRoundProvider>
+                    <StoreRoundProvider key={roundId}>
                         <Round />
                     </StoreRoundProvider>
                 )
