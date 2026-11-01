@@ -49,6 +49,14 @@ bun run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+### Checks
+
+```bash
+cd front
+bun run check   # typecheck + Prettier check + unit tests
+bun run format  # auto-format with Prettier
+```
+
 ### Production Build
 
 ```bash
@@ -65,9 +73,11 @@ open-undercover/
 │   ├── components/             # React components
 │   │   ├── dark-mode/          # Dark mode toggle
 │   │   ├── game-init/          # Player setup & game configuration
+│   │   ├── game-settings/      # In-game settings sheet
 │   │   ├── header/             # App header
 │   │   ├── round/              # Round logic (distribution, voting, conclusion)
-│   │   └── starter/            # Start screen
+│   │   ├── starter/            # Start screen
+│   │   └── ui/                 # Shared UI primitives
 │   ├── helpers/                # Utilities & state management
 │   │   ├── redux/              # Global store (React Context + useReducer)
 │   │   ├── player/             # Player helpers
@@ -77,6 +87,8 @@ open-undercover/
 │   ├── public/                 # Static assets & PWA manifest
 │   ├── styles/                 # Global styles
 │   └── types/                  # TypeScript type definitions
+├── .claude/                    # Claude Code settings & hooks
+├── AGENTS.md                   # Instructions for AI coding agents
 ├── .prettierrc.js              # Prettier configuration
 └── README.md
 ```
@@ -87,7 +99,7 @@ open-undercover/
 - **PWA** — installable as a standalone app on mobile and desktop
 - **Persistent state** — game progress saved to localStorage (expires after 24h)
 - **Configurable** — adjust number of undercovers, enable/disable Mr. White
-- **220+ word pairs** — built-in multilingual word database (FR / EN / ES)
+- **360 word pairs** — built-in multilingual word database (FR / EN / ES)
 - **Score tracking** — tracks player scores across multiple rounds
 
 ## Contributing Word Pairs
@@ -96,6 +108,12 @@ The word pairs are the heart of the game. Want to add your own? Read
 [**The Art of the Word Pair**](front/helpers/words/README.md) — a guide to what makes
 a pair perfect for Undercover, the game-design theory behind it, and the format and
 checklist for adding one.
+
+## Working with AI coding agents
+
+[`AGENTS.md`](AGENTS.md) documents the commands, architecture and conventions for AI
+coding agents (Claude Code reads it through `CLAUDE.md`). Keep it up to date when you
+change how the project works.
 
 ## License
 

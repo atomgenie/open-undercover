@@ -23,7 +23,10 @@ const Home: React.FC = () => {
     })()
 
     return (
-        <div key={gameStep} className="flex-grow flex flex-col animate-fade-in overflow-hidden">
+        <div
+            key={gameStep}
+            className="flex-grow flex flex-col animate-fade-in overflow-hidden"
+        >
             {content}
         </div>
     )
