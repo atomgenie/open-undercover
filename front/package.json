@@ -13,24 +13,23 @@
     "check": "bun run typecheck && bun run format:check && bun run test"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.1.18",
+    "@tailwindcss/postcss": "^4.3.3",
     "canvas-confetti": "^1.9.4",
-    "eslint-config-next": "15",
-    "next": "15",
-    "postcss": "^8.5.6",
+    "next": "16",
+    "postcss": "^8.5.32",
     "react": "19",
     "react-dom": "19",
-    "react-icons": "^5.5.0",
-    "sharp": "^0.34.5",
+    "react-icons": "^5.7.0",
+    "sharp": "^0.35.5",
     "tailwindcss": "4"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/canvas-confetti": "^1.9.0",
-    "@types/node": "^22.19.11",
+    "@types/node": "^22.20.5",
     "@types/react": "19",
     "@types/react-dom": "19",
     "prettier": "^3.9.10",
-    "typescript": "^5.9.3"
+    "typescript": "7"
   }
 }

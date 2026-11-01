@@ -20,7 +20,7 @@ Live example: [https://undercover.tamtanguy.com/](https://undercover.tamtanguy.c
 
 ## Tech Stack
 
-- [Next.js 15](https://nextjs.org/) — React framework
+- [Next.js 16](https://nextjs.org/) — React framework
 - [React 19](https://react.dev/) — UI library
 - [TypeScript](https://www.typescriptlang.org/) — type safety
 - [Tailwind CSS 4](https://tailwindcss.com/) — styling

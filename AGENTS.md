@@ -6,7 +6,7 @@ working on this repository. Human contributors: see [README.md](README.md).
 ## Project
 
 Open Undercover is a client-only web version of the social deduction party game
-_Undercover_. Next.js 15 app, Pages Router, React 19, TypeScript (strict), Tailwind
+_Undercover_. Next.js 16 app, Pages Router, React 19, TypeScript (strict), Tailwind
 CSS 4, installable PWA. There is no backend, no API route and no database: all state
 lives in the browser.
 
@@ -28,7 +28,7 @@ bun run format:check  # prettier --check .
 bun run check         # typecheck + format:check + test (run this before committing)
 ```
 
-There is no ESLint setup: `eslint-config-next` is in `package.json` but not configured.
+There is no ESLint setup.
 
 ## Definition of done
 
@@ -70,8 +70,13 @@ words is the civilian one. The round store keeps `wordPairIndex` / `validWordInd
 
 ## Conventions and gotchas
 
-- **Imports** are absolute from `front/` (via `baseUrl`): `helpers/undercover`,
-  `types/player`, `components/ui/Avatar`. Each helper folder re-exports from `index.ts`.
+- **Next.js 16** may differ from what you remember. Its docs for the installed version
+  ship in `front/node_modules/next/dist/docs/` (`02-pages` for the Pages Router). Check
+  them before relying on a Next.js API. `agentRules: false` in `next.config.js` stops
+  `next dev` from writing its own `front/AGENTS.md`.
+- **Imports** are absolute from `front/` (via the `"*"` entry of `paths` in
+  `tsconfig.json`): `helpers/undercover`, `types/player`, `components/ui/Avatar`. Each
+  helper folder re-exports from `index.ts`.
 - **State changes** go through a typed action in `actions.ts` plus a `case` in the
   matching reducer. Do not mutate state or add another state library.
 - **Persisted state:** the global store is saved to `localStorage` under
