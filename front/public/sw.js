@@ -1,4 +1,4 @@
-const CACHE_NAME = "open-undercover-v3"
+const CACHE_NAME = "open-undercover-v4"
 const STATIC_ASSETS = ["/", "/manifest.json"]
 
 self.addEventListener("install", event => {
