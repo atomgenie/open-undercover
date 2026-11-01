@@ -74,8 +74,9 @@ words is the civilian one. The round store keeps `wordPairIndex` / `validWordInd
   ship in `front/node_modules/next/dist/docs/` (`02-pages` for the Pages Router). Check
   them before relying on a Next.js API. `agentRules: false` in `next.config.js` stops
   `next dev` from writing its own `front/AGENTS.md`.
-- **Imports** are absolute from `front/` (via `baseUrl`): `helpers/undercover`,
-  `types/player`, `components/ui/Avatar`. Each helper folder re-exports from `index.ts`.
+- **Imports** are absolute from `front/` (via the `"*"` entry of `paths` in
+  `tsconfig.json`): `helpers/undercover`, `types/player`, `components/ui/Avatar`. Each
+  helper folder re-exports from `index.ts`.
 - **State changes** go through a typed action in `actions.ts` plus a `case` in the
   matching reducer. Do not mutate state or add another state library.
 - **Persisted state:** the global store is saved to `localStorage` under
