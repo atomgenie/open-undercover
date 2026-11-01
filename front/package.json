@@ -15,8 +15,7 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "canvas-confetti": "^1.9.4",
-    "eslint-config-next": "15",
-    "next": "15",
+    "next": "16",
     "postcss": "^8.5.32",
     "react": "19",
     "react-dom": "19",
