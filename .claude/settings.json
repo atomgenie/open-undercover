@@ -1,0 +1,36 @@
+{
+    "$schema": "https://json.schemastore.org/claude-code-settings.json",
+    "permissions": {
+        "allow": [
+            "Bash(bun install)",
+            "Bash(bun run dev)",
+            "Bash(bun run build)",
+            "Bash(bun run typecheck)",
+            "Bash(bun run test)",
+            "Bash(bun run format)",
+            "Bash(bun run format:check)",
+            "Bash(bun run check)",
+            "Bash(bun test:*)",
+            "Bash(bunx prettier:*)",
+            "Bash(bunx tsc:*)",
+            "Bash(git status:*)",
+            "Bash(git diff:*)",
+            "Bash(git log:*)",
+            "Bash(git show:*)"
+        ]
+    },
+    "hooks": {
+        "PostToolUse": [
+            {
+                "matcher": "Edit|MultiEdit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "bun \"$CLAUDE_PROJECT_DIR/.claude/hooks/format.ts\"",
+                        "timeout": 30
+                    }
+                ]
+            }
+        ]
+    }
+}

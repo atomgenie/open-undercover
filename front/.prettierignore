@@ -1,0 +1,13 @@
+# Generated or managed by tools
+.next/
+out/
+node_modules/
+bun.lock
+next-env.d.ts
+
+# JSON is written by bun (package.json) or hand-formatted one-entry-per-line
+# (helpers/words/words-i18n.json, see helpers/words/README.md)
+*.json
+
+# Prose is formatted by hand
+*.md
