@@ -50,3 +50,21 @@ export const canStartGame = (
     const civils = playerCount - enemies
     return playerCount >= 3 && civils > enemies
 }
+
+/** Human readable reason why the current setup can't be played, or null if it can */
+export const getSetupError = (
+    playerCount: number,
+    undercovers: number,
+    mrWhite: boolean,
+): string | null => {
+    if (canStartGame(playerCount, undercovers, mrWhite)) {
+        return null
+    }
+
+    if (playerCount < 3) {
+        const missing = 3 - playerCount
+        return `Add ${missing} more player${missing > 1 ? "s" : ""} to start.`
+    }
+
+    return "Not enough civilians: add a player, remove an undercover or turn off Mr. White."
+}

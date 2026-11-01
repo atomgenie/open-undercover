@@ -1,9 +1,10 @@
-import { getInitials } from "helpers/player"
 import { useStoreDispatch, useStoreState } from "helpers/redux"
 import { useRoundDispatcher, useRoundState } from "helpers/redux/round"
 import { Language, LANGUAGE_LABELS, WORDS } from "helpers/words"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { FiArrowRight } from "react-icons/fi"
+import { FiCheck, FiEye } from "react-icons/fi"
+import { Avatar } from "components/ui/Avatar"
+import { BottomBar } from "components/ui/BottomBar"
 import { PlayerRound } from "types/player"
 
 const STEPS_PER_PLAYER = 2
@@ -24,23 +25,25 @@ export const Distribution: React.FC = () => {
     const initialPlayers = useRef(players)
 
     // Compute role assignments once at mount — must not re-run when language changes.
-    const [[mrWhitePlayer, undercoversRound]] = useState<[string | null, string[]]>(() => {
-        const pool = initialPlayers.current
-        const mw = mrWhite ? pool[Math.trunc(Math.random() * pool.length)].name : null
+    const [[mrWhitePlayer, undercoversRound]] = useState<[string | null, string[]]>(
+        () => {
+            const pool = initialPlayers.current
+            const mw = mrWhite ? pool[Math.trunc(Math.random() * pool.length)].name : null
 
-        let remaining = pool.map(p => p.name).filter(n => n !== mw)
-        let selected: string[] = []
+            let remaining = pool.map(p => p.name).filter(n => n !== mw)
+            let selected: string[] = []
 
-        for (let i = 0; i < undercovers; i++) {
-            if (remaining.length === 0) break
-            const idx = Math.trunc(Math.random() * remaining.length)
-            const name = remaining[idx]
-            selected = [...selected, name]
-            remaining = remaining.filter(p => p !== name)
-        }
+            for (let i = 0; i < undercovers; i++) {
+                if (remaining.length === 0) break
+                const idx = Math.trunc(Math.random() * remaining.length)
+                const name = remaining[idx]
+                selected = [...selected, name]
+                remaining = remaining.filter(p => p !== name)
+            }
 
-        return [mw, selected]
-    })
+            return [mw, selected]
+        },
+    )
 
     const playersWithWord = useMemo((): PlayerRound[] => {
         return initialPlayers.current.map(player => {
@@ -82,7 +85,7 @@ export const Distribution: React.FC = () => {
         if (!currentPlayer || currentPlayer.isMrWhite) return ""
         const pair = WORDS[roundState.wordPairIndex]
         const idx = currentPlayer.isUndercover
-            ? (1 - roundState.validWordIndex)
+            ? 1 - roundState.validWordIndex
             : roundState.validWordIndex
         return pair[lang][idx]
     }
@@ -107,107 +110,167 @@ export const Distribution: React.FC = () => {
         setShowPlayer(showPlayer + 1)
     }
 
+    const handleHide = () => {
+        if (showPlayer % STEPS_PER_PLAYER === 1) {
+            setShowPlayer(showPlayer - 1)
+        }
+    }
+
     if (!currentPlayer) {
         return (
-            <div className="flex-grow flex items-center justify-center">Loading...</div>
+            <div className="flex-grow flex items-center justify-center text-muted font-bold">
+                Shuffling roles…
+            </div>
         )
     }
 
+    const playerIndex = Math.trunc(showPlayer / STEPS_PER_PLAYER)
+    const isFlipped = showPlayer % STEPS_PER_PLAYER === 1
+    const isLastPlayer = playerIndex === roundState.players.length - 1
+
     return (
-        <div className="flex-grow">
-            <div className="container mx-auto px-2">
-                <div className="flex justify-center">
+        <div className="flex-grow flex flex-col overflow-hidden">
+            <div className="flex-grow overflow-y-auto flex flex-col">
+                <div className="mx-auto w-full max-w-xl px-4 pt-4 pb-2 flex-grow flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                        <span className="bg-ink text-paper dark:bg-fg dark:text-ink rounded-full px-3 py-0.5 text-sm font-extrabold flex-shrink-0">
+                            {playerIndex + 1} / {roundState.players.length}
+                        </span>
+                        <div className="flex-grow flex gap-1" aria-hidden="true">
+                            {roundState.players.map((player, index) => (
+                                <div
+                                    key={player.name}
+                                    className={`h-2 flex-1 rounded-full border-2 border-ink transition-colors ${
+                                        index < playerIndex
+                                            ? "bg-pop-mint"
+                                            : index === playerIndex
+                                              ? "bg-pop-yellow"
+                                              : "bg-surface"
+                                    }`}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
                     <div
-                        key={showPlayer}
-                        className="px-4 py-8 bg-brand rounded-md my-4 shadow-sm flex-grow max-w-sm flex flex-col items-center gap-4 animate-fade-in-up"
-                        style={{ minHeight: 500 }}
+                        key={playerIndex}
+                        className={`flip-card flex-grow min-h-[24rem] animate-pop-in ${
+                            isFlipped ? "is-flipped" : ""
+                        }`}
                     >
-                        {showPlayer % STEPS_PER_PLAYER === 0 && (
-                            <>
-                                <div className="bg-brand-dark text-white text-4xl h-28 w-28 rounded-full flex items-center justify-center font-bold">
-                                    {getInitials(currentPlayer.name)}
-                                </div>
-                                <div className="text-center text-white/90 text-2xl font-bold">
+                        <div className="flip-card-inner">
+                            <button
+                                className="flip-card-face pop-card bg-surface text-fg flex flex-col items-center justify-center gap-4 p-6 text-center w-full"
+                                onClick={handleNext}
+                                aria-label={`Reveal ${currentPlayer.name}'s word`}
+                                tabIndex={isFlipped ? -1 : 0}
+                                aria-hidden={isFlipped}
+                            >
+                                <span className="text-xs font-extrabold uppercase tracking-widest text-muted">
+                                    Pass the phone to
+                                </span>
+                                <Avatar
+                                    name={currentPlayer.name}
+                                    size="xl"
+                                    className="pop-shadow"
+                                />
+                                <span className="text-4xl font-extrabold tracking-tight break-words max-w-full">
                                     {currentPlayer.name}
-                                </div>
-                                <div className="text-white/70 text-sm">
-                                    Give this device to{" "}
-                                    <b className="text-white">{currentPlayer.name}</b>
-                                </div>
-                                <div className="flex-grow"></div>
-                                <button
-                                    className="flex items-center text-white font-bold gap-4 bg-brand-dark rounded-full px-8 py-2 mt-8"
-                                    onClick={handleNext}
-                                >
-                                    <div>Next</div>
-                                    <FiArrowRight />
-                                </button>
-                            </>
-                        )}
-                        {showPlayer % STEPS_PER_PLAYER === 1 && (
-                            <>
-                                <div className="bg-brand-dark text-white text-4xl h-28 w-28 rounded-full flex items-center justify-center font-bold">
-                                    {getInitials(currentPlayer.name)}
-                                </div>
-                                <div className="text-center text-white/90 text-2xl font-bold">
-                                    {currentPlayer.name}
-                                </div>
-                                {currentPlayer.isMrWhite ? (
-                                    <div
-                                        className="flex flex-col items-center gap-2 animate-fade-in-up"
-                                        style={{ animationDelay: "0.15s" }}
-                                    >
-                                        <div className="text-white/70 text-sm">
-                                            You are
-                                        </div>
-                                        <div className="text-3xl text-white font-bold text-center mt-4">
-                                            Mister White
-                                        </div>
-                                        <div className="text-white/70 text-sm text-center">
-                                            You have no word. Try to blend in!
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div
-                                        className="flex flex-col items-center gap-2 animate-fade-in-up w-full"
-                                        style={{ animationDelay: "0.15s" }}
-                                    >
-                                        <div className="text-white/70 text-sm">
-                                            This is your word
-                                        </div>
-                                        <div className="text-3xl text-white font-bold text-center mt-4">
-                                            {getWordInLanguage(currentLanguage)}
-                                        </div>
-                                        <div className="flex gap-2 mt-4">
-                                            {(["fr", "en", "es"] as Language[]).map(lang => (
-                                                <button
-                                                    key={lang}
-                                                    className={`px-4 py-1 rounded-full text-sm font-bold transition-colors ${
-                                                        currentLanguage === lang
-                                                            ? "bg-white text-brand"
-                                                            : "bg-brand-dark text-white/70 hover:text-white"
-                                                    }`}
-                                                    onClick={() => handleLanguageChange(lang)}
-                                                >
-                                                    {LANGUAGE_LABELS[lang]}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
+                                </span>
+                                <span className="text-muted font-semibold">
+                                    Make sure nobody else is looking 👀
+                                </span>
+                                <span className="mt-4 bg-pop-yellow text-ink border-2 border-ink rounded-full px-4 py-1.5 font-extrabold text-sm animate-wiggle">
+                                    Tap to flip the card
+                                </span>
+                            </button>
+
+                            <div
+                                className="flip-card-face flip-card-back pop-card bg-pop-yellow text-ink flex flex-col items-center justify-center gap-5 p-6 text-center cursor-pointer"
+                                onClick={handleHide}
+                                aria-hidden={!isFlipped}
+                            >
+                                {isFlipped && currentPlayer.isMrWhite && (
+                                    <>
+                                        <span className="text-xs font-extrabold uppercase tracking-widest">
+                                            {currentPlayer.name}, you are
+                                        </span>
+                                        <span className="bg-surface text-fg pop-border pop-shadow rounded-2xl px-5 py-2 text-4xl font-extrabold tracking-tight rotate-2">
+                                            Mr. White
+                                        </span>
+                                        <span className="font-bold max-w-64">
+                                            You have no word. Listen closely and blend in!
+                                        </span>
+                                    </>
                                 )}
-                                <div className="flex-grow"></div>
-                                <button
-                                    className="flex items-center text-white font-bold gap-4 bg-brand-dark rounded-full px-8 py-2 mt-8"
-                                    onClick={handleNext}
-                                >
-                                    <div>OK</div>
-                                    <FiArrowRight />
-                                </button>
-                            </>
-                        )}
+                                {isFlipped && !currentPlayer.isMrWhite && (
+                                    <>
+                                        <span className="text-xs font-extrabold uppercase tracking-widest">
+                                            {currentPlayer.name}, your secret word
+                                        </span>
+                                        <span className="bg-surface text-fg pop-border pop-shadow rounded-2xl px-5 py-2 text-4xl font-extrabold tracking-tight rotate-2 break-words max-w-full">
+                                            {getWordInLanguage(currentLanguage)}
+                                        </span>
+                                        <div
+                                            className="flex gap-2"
+                                            role="group"
+                                            aria-label="Word language"
+                                            onClick={e => e.stopPropagation()}
+                                        >
+                                            {(["fr", "en", "es"] as Language[]).map(
+                                                lang => (
+                                                    <button
+                                                        key={lang}
+                                                        className={`h-9 min-w-12 px-3 rounded-full border-2 border-ink text-sm font-extrabold pop-press ${
+                                                            currentLanguage === lang
+                                                                ? "bg-ink text-pop-yellow"
+                                                                : "bg-surface text-fg"
+                                                        }`}
+                                                        aria-pressed={
+                                                            currentLanguage === lang
+                                                        }
+                                                        onClick={() =>
+                                                            handleLanguageChange(lang)
+                                                        }
+                                                    >
+                                                        {LANGUAGE_LABELS[lang]}
+                                                    </button>
+                                                ),
+                                            )}
+                                        </div>
+                                    </>
+                                )}
+                                <span className="text-sm font-bold opacity-70">
+                                    Tap the card to hide it
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <BottomBar>
+                <button
+                    className={`pop-border pop-shadow pop-press w-full h-14 rounded-2xl flex items-center justify-center gap-3 text-lg font-extrabold uppercase tracking-wide ${
+                        isFlipped ? "bg-pop-mint text-ink" : "bg-pop-purple text-white"
+                    }`}
+                    onClick={handleNext}
+                >
+                    {!isFlipped && (
+                        <>
+                            <FiEye />
+                            <span>Show my word</span>
+                        </>
+                    )}
+                    {isFlipped && (
+                        <>
+                            <FiCheck strokeWidth={3} />
+                            <span>
+                                {isLastPlayer ? "Got it, let's vote" : "Got it, next"}
+                            </span>
+                        </>
+                    )}
+                </button>
+            </BottomBar>
         </div>
     )
 }

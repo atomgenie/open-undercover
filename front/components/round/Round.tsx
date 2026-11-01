@@ -38,7 +38,11 @@ export const Round: React.FC = () => {
 
     switch (roundState.roundStep) {
         case ROUND_STEP.INITIALISATION:
-            return <div>Loading...</div>
+            return (
+                <div className="flex-grow flex items-center justify-center text-muted font-bold">
+                    Shuffling roles…
+                </div>
+            )
         case ROUND_STEP.DISTRIBUTION:
             return <Distribution />
         case ROUND_STEP.VOTE:

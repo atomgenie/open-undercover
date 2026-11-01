@@ -1,15 +1,18 @@
 import { useStoreDispatch, useStoreState } from "helpers/redux"
 import { isPlayerNameValid } from "helpers/player"
-import { canStartGame } from "helpers/undercover"
-import { useMemo, useState } from "react"
-import { FiArrowRight, FiPlus, FiUser } from "react-icons/fi"
+import { canStartGame, getSetupError } from "helpers/undercover"
+import { useMemo, useRef, useState } from "react"
+import { FiPlay, FiPlus } from "react-icons/fi"
 import { PlayerCard } from "./components/PlayerCard"
 import { MrWhiteToggle } from "./components/MrWhiteToggle"
 import { Undercovers } from "./components/Undercovers"
+import { BottomBar } from "components/ui/BottomBar"
+import { TeamSummary } from "./components/TeamSummary"
 
 export const GameInit: React.FC = () => {
     const state = useStoreState()
     const dispatch = useStoreDispatch()
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const [name, setName] = useState("")
 
@@ -17,6 +20,9 @@ export const GameInit: React.FC = () => {
         () => isPlayerNameValid(name, state.players),
         [name, state.players],
     )
+
+    const isDuplicate =
+        name.trim() !== "" && state.players.some(player => player.name === name.trim())
 
     const handleAddPlayer = () => {
         if (!isNameValid) {
@@ -29,11 +35,15 @@ export const GameInit: React.FC = () => {
         })
 
         setName("")
+        // Keep the keyboard open so the next name can be typed right away
+        inputRef.current?.focus()
     }
 
-    const canStart = useMemo(
-        () => canStartGame(state.players.length, state.undercovers, state.mrWhite),
-        [state.players.length, state.undercovers, state.mrWhite],
+    const canStart = canStartGame(state.players.length, state.undercovers, state.mrWhite)
+    const setupError = getSetupError(
+        state.players.length,
+        state.undercovers,
+        state.mrWhite,
     )
 
     const handleStart = () => {
@@ -48,73 +58,91 @@ export const GameInit: React.FC = () => {
 
     return (
         <div className="flex-grow flex flex-col overflow-hidden">
-            <div className="flex-grow overflow-y-auto flex-shrink">
-                <div className="container mx-auto px-2">
-                    <div className="flex gap-4 flex-wrap justify-center sm:justify-start py-8">
-                        <div className="h-80 w-64 bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 rounded-md flex flex-col justify-center items-center px-4 py-4">
-                            <form
-                                className="flex flex-col gap-4 items-center"
-                                onSubmit={e => {
-                                    e.preventDefault()
-                                    handleAddPlayer()
-                                }}
-                            >
-                                <div className="w-28 h-28 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-full text-4xl">
-                                    <FiUser />
-                                </div>
-                                <input
-                                    type="text"
-                                    autoComplete="off"
-                                    className="border border-gray-200 w-full rounded-full py-2 px-4 text-sm outline-hidden dark:bg-gray-700 dark:border-gray-600"
-                                    value={name}
-                                    onChange={e => setName(e.target.value)}
-                                    placeholder="Player name"
-                                />
-                                <button
-                                    className={`flex items-center gap-2 py-2 px-4 rounded-full bg-gray-100 border border-gray-200 dark:bg-gray-700 dark:border-gray-600 ${
-                                        !isNameValid ? "opacity-20 cursor-default" : ""
-                                    }`}
-                                    disabled={!isNameValid}
-                                    onClick={() => handleAddPlayer()}
-                                    type="submit"
-                                >
-                                    <FiPlus className="text-2xl" />
-                                    <div>Add one player</div>
-                                </button>
-                            </form>
-                        </div>
-                        {state.players.map(player => (
-                            <PlayerCard key={player.name} player={player} />
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div className="flex-shrink-0 bg-brand">
-                <div className="container mx-auto flex items-center gap-4 px-2">
-                    <div className="bg-brand-dark rounded-full my-3 px-6 py-2 text-sm flex-shrink-0">
-                        <span className="font-bold text-white">
-                            {state.players.length}
-                        </span>{" "}
-                        <span className="text-white/75">
-                            player
-                            {state.players.length > 1 && "s"}
+            <div className="flex-grow overflow-y-auto">
+                <div className="mx-auto w-full max-w-xl px-4 pt-4 pb-6 flex flex-col gap-5">
+                    <h1 className="text-4xl font-extrabold tracking-tighter leading-none">
+                        Who's{" "}
+                        <span className="inline-block bg-pop-yellow text-ink px-1.5 rounded-lg -rotate-2">
+                            in
                         </span>
-                    </div>
-                    <div className="flex-grow flex-shrink hidden md:block"></div>
-                    <Undercovers />
-                    <MrWhiteToggle />
-                    <button
-                        className={`rounded-full bg-brand-dark my-3 px-8 py-2 flex text-white items-center gap-4 font-bold text-sm ${
-                            !canStart ? "opacity-20" : ""
-                        }`}
-                        disabled={!canStart}
-                        onClick={handleStart}
+                        ?
+                    </h1>
+
+                    <form
+                        className="pop-card bg-surface flex items-center gap-2 p-1.5 pl-4 focus-within:-translate-y-0.5 transition-transform"
+                        onSubmit={e => {
+                            e.preventDefault()
+                            handleAddPlayer()
+                        }}
                     >
-                        <div>Start</div>
-                        <FiArrowRight />
-                    </button>
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            autoComplete="off"
+                            autoCapitalize="words"
+                            enterKeyHint="done"
+                            maxLength={24}
+                            className="flex-grow min-w-0 bg-transparent text-base font-semibold outline-none placeholder:text-muted"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                            placeholder="Add a player…"
+                            aria-label="Player name"
+                        />
+                        <button
+                            className="pop-border pop-press h-11 w-11 flex-shrink-0 rounded-xl bg-pop-mint text-ink flex items-center justify-center text-2xl"
+                            disabled={!isNameValid}
+                            type="submit"
+                            aria-label="Add player"
+                        >
+                            <FiPlus strokeWidth={3} />
+                        </button>
+                    </form>
+                    {isDuplicate && (
+                        <p className="-mt-3 text-sm font-semibold text-pop-red animate-fade-in">
+                            {name.trim()} is already playing.
+                        </p>
+                    )}
+
+                    {state.players.length > 0 ? (
+                        <ul className="flex flex-wrap gap-2.5">
+                            {state.players.map(player => (
+                                <PlayerCard key={player.name} player={player} />
+                            ))}
+                        </ul>
+                    ) : (
+                        <div className="pop-border border-dashed rounded-2xl px-4 py-6 text-center text-muted font-semibold">
+                            No players yet. Add at least 3 to play.
+                        </div>
+                    )}
+
+                    <section className="flex flex-col gap-3" aria-label="Roles">
+                        <h2 className="text-sm font-extrabold uppercase tracking-wider text-muted">
+                            Roles
+                        </h2>
+                        <div className="grid grid-cols-2 gap-3">
+                            <Undercovers />
+                            <MrWhiteToggle />
+                        </div>
+                    </section>
                 </div>
             </div>
+            <BottomBar>
+                {setupError ? (
+                    <p className="text-center text-sm font-semibold text-muted">
+                        {setupError}
+                    </p>
+                ) : (
+                    <TeamSummary />
+                )}
+                <button
+                    className="pop-border pop-shadow pop-press w-full h-14 rounded-2xl bg-pop-purple text-white flex items-center justify-center gap-3 text-lg font-extrabold uppercase tracking-wide"
+                    disabled={!canStart}
+                    onClick={handleStart}
+                >
+                    <span>Let's play</span>
+                    <FiPlay className="fill-current" />
+                </button>
+            </BottomBar>
         </div>
     )
 }
