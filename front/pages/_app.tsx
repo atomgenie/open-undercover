@@ -22,15 +22,15 @@ const MyApp = ({ Component, pageProps }: any) => {
                 <link rel="manifest" href="/manifest.json" />
                 <meta
                     name="viewport"
-                    content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+                    content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
                 />
                 <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-                <meta name="theme-color" content="#6605cc" />
+                <meta name="theme-color" content="#7c3aed" />
                 <title>Open Undercover</title>
             </Head>
             <StoreProvider>
                 <DarkMode>
-                    <div className="overflow-hidden flex flex-col flex-1 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+                    <div className="overflow-hidden flex flex-col flex-1 bg-paper text-fg font-display">
                         <Header />
                         <div className="overflow-hidden flex flex-grow flex-col">
                             <Component {...pageProps} />

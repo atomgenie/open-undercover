@@ -5,25 +5,31 @@ export const MrWhiteToggle: React.FC = () => {
     const dispatch = useStoreDispatch()
 
     return (
-        <div className="flex items-center text-white gap-2">
-            <div className="text-sm">
-                <span>Mr. White: </span>
-            </div>
-            <button
-                className={`rounded-full px-4 py-1 text-sm font-bold ${
-                    mrWhite
-                        ? "bg-white text-brand"
-                        : "bg-brand-light text-brand"
-                }`}
-                onClick={() => {
-                    dispatch({
-                        type: "SET_MR_WHITE",
-                        enabled: !mrWhite,
-                    })
-                }}
+        <button
+            role="switch"
+            aria-checked={mrWhite}
+            className={`pop-card pop-press p-3 flex flex-col gap-2 text-left ${
+                mrWhite ? "bg-pop-yellow text-ink" : "bg-surface text-fg"
+            }`}
+            onClick={() => {
+                dispatch({
+                    type: "SET_MR_WHITE",
+                    enabled: !mrWhite,
+                })
+            }}
+        >
+            <span className="text-xs font-extrabold uppercase tracking-wider">
+                Mr. White
+            </span>
+            <span
+                key={String(mrWhite)}
+                className="text-4xl font-extrabold leading-none animate-pop-in"
             >
                 {mrWhite ? "ON" : "OFF"}
-            </button>
-        </div>
+            </span>
+            <span className={`text-xs font-bold mt-auto ${mrWhite ? "" : "text-muted"}`}>
+                No word at all. Pure bluff!
+            </span>
+        </button>
     )
 }

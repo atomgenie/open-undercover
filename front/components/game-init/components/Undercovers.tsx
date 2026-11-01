@@ -1,64 +1,54 @@
 import { useStoreDispatch, useStoreState } from "helpers/redux"
 import { getMaxUndercovers } from "helpers/undercover"
-import { useMemo } from "react"
 import { FiMinus, FiPlus } from "react-icons/fi"
+
+const stepButtonClass =
+    "pop-border pop-shadow-sm pop-press h-10 w-10 rounded-xl bg-surface text-fg flex items-center justify-center text-lg"
 
 export const Undercovers: React.FC = () => {
     const { undercovers, players, mrWhite } = useStoreState()
     const dispatch = useStoreDispatch()
 
-    const maxUndercovers = useMemo(
-        () => getMaxUndercovers(players.length, mrWhite),
-        [players.length, mrWhite],
-    )
-    const canMinus = useMemo(() => undercovers > 1, [undercovers])
-    const canPlus = useMemo(() => undercovers < maxUndercovers, [
-        undercovers,
-        maxUndercovers,
-    ])
+    const maxUndercovers = getMaxUndercovers(players.length, mrWhite)
+    const canMinus = undercovers > 1
+    const canPlus = undercovers < maxUndercovers
+
+    const setAmount = (amount: number) => {
+        dispatch({
+            type: "SET_UNDERCOVERS",
+            amount,
+        })
+    }
 
     return (
-        <div className="flex items-center text-white gap-2">
-            <div className="text-sm">
-                <span>Undercovers: </span>
-                <span className="font-bold">{undercovers}</span>
+        <div className="pop-card bg-pop-pink text-ink p-3 flex flex-col gap-2">
+            <span className="text-xs font-extrabold uppercase tracking-wider">
+                Undercovers
+            </span>
+            <span
+                key={undercovers}
+                className="text-4xl font-extrabold leading-none animate-pop-in"
+            >
+                {undercovers}
+            </span>
+            <div className="flex gap-2 mt-auto">
+                <button
+                    className={stepButtonClass}
+                    disabled={!canMinus}
+                    onClick={() => canMinus && setAmount(undercovers - 1)}
+                    aria-label="Remove one undercover"
+                >
+                    <FiMinus />
+                </button>
+                <button
+                    className={stepButtonClass}
+                    disabled={!canPlus}
+                    onClick={() => canPlus && setAmount(undercovers + 1)}
+                    aria-label="Add one undercover"
+                >
+                    <FiPlus />
+                </button>
             </div>
-            <button
-                className={`rounded-full flex items-center justify-center bg-brand-light text-brand h-8 w-8 outline-hidden flex-shrink-0 ${
-                    !canMinus ? "opacity-20 cursor-default" : ""
-                }`}
-                disabled={!canMinus}
-                onClick={() => {
-                    if (!canMinus) {
-                        return
-                    }
-
-                    dispatch({
-                        type: "SET_UNDERCOVERS",
-                        amount: undercovers - 1,
-                    })
-                }}
-            >
-                <FiMinus />
-            </button>
-            <button
-                className={`rounded-full flex items-center justify-center bg-brand-light text-brand h-8 w-8 outline-hidden flex-shrink-0 ${
-                    !canPlus ? "opacity-20 cursor-default" : ""
-                }`}
-                disabled={!canPlus}
-                onClick={() => {
-                    if (!canPlus) {
-                        return
-                    }
-
-                    dispatch({
-                        type: "SET_UNDERCOVERS",
-                        amount: undercovers + 1,
-                    })
-                }}
-            >
-                <FiPlus />
-            </button>
         </div>
     )
 }

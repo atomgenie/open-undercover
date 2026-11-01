@@ -29,19 +29,29 @@ export const MrWhiteGuess: React.FC = () => {
     }
 
     return (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 animate-fade-in">
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-sm w-full mx-4 flex flex-col items-center gap-4 animate-fade-in-scale">
-                <div className="text-2xl font-bold text-center">
-                    Mister White
-                </div>
-                <div className="text-center text-gray-600 dark:text-gray-300">
-                    <b>{roundState.mrWhiteGuessing}</b> was Mister White!
-                </div>
-                <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-                    You have one chance to guess the civilian word.
+        <div className="fixed inset-0 bg-ink/70 flex items-end sm:items-center justify-center z-50 animate-fade-in p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="mr-white-title"
+                className="pop-card bg-pop-yellow text-ink w-full max-w-sm p-5 flex flex-col items-center gap-4 text-center animate-pop-in"
+            >
+                <span className="text-5xl animate-float" aria-hidden="true">
+                    👻
+                </span>
+                <div className="flex flex-col gap-1">
+                    <h2
+                        id="mr-white-title"
+                        className="text-3xl font-extrabold tracking-tight"
+                    >
+                        Busted, {roundState.mrWhiteGuessing}!
+                    </h2>
+                    <p className="font-semibold">
+                        You were Mr. White. Guess the civilians' word to steal the win.
+                    </p>
                 </div>
                 <form
-                    className="w-full flex flex-col gap-4"
+                    className="w-full flex flex-col gap-3"
                     onSubmit={e => {
                         e.preventDefault()
                         handleSubmit()
@@ -50,17 +60,18 @@ export const MrWhiteGuess: React.FC = () => {
                     <input
                         type="text"
                         autoComplete="off"
-                        className="border border-gray-200 w-full rounded-full py-2 px-4 text-sm outline-hidden dark:bg-gray-700 dark:border-gray-600"
+                        autoCapitalize="none"
+                        enterKeyHint="go"
+                        className="pop-border bg-surface text-fg w-full rounded-2xl h-13 px-4 text-lg font-bold text-center outline-none placeholder:text-muted placeholder:font-semibold"
                         value={guess}
                         onChange={e => setGuess(e.target.value)}
-                        placeholder="Enter your guess..."
+                        placeholder="Your guess…"
+                        aria-label="Your guess"
                         autoFocus
                     />
                     <button
                         type="submit"
-                        className={`w-full rounded-full bg-brand text-white py-2 px-4 font-bold ${
-                            !guess.trim() ? "opacity-40 cursor-default" : ""
-                        }`}
+                        className="pop-border pop-shadow pop-press w-full h-13 rounded-2xl bg-pop-purple text-white font-extrabold uppercase tracking-wide"
                         disabled={!guess.trim()}
                     >
                         Submit guess

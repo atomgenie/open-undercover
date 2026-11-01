@@ -9,15 +9,20 @@ import {
 import { useEffect, useMemo } from "react"
 import { FiArrowRight } from "react-icons/fi"
 import { PlayerRound } from "types/player"
+import { Avatar } from "components/ui/Avatar"
+import { BottomBar } from "components/ui/BottomBar"
+import { getRoleColor, getRoleLabel } from "./VotePlayer"
 
-const CIVIL_CORRECT_ELIMINATION = 20   // per undercover correctly identified while alive
-const CIVIL_WIN_ALIVE = 20             // alive when civils win
-const CIVIL_WIN_ELIMINATED = 5         // eliminated but team still won
+const MEDALS = ["🥇", "🥈", "🥉"]
 
-const UNDERCOVER_DECEPTION = 15        // per civil outlasted
-const UNDERCOVER_WIN = 30              // team wins
+const CIVIL_CORRECT_ELIMINATION = 20 // per undercover correctly identified while alive
+const CIVIL_WIN_ALIVE = 20 // alive when civils win
+const CIVIL_WIN_ELIMINATED = 5 // eliminated but team still won
 
-const MR_WHITE_CORRECT_GUESS = 100     // guessed the word correctly
+const UNDERCOVER_DECEPTION = 15 // per civil outlasted
+const UNDERCOVER_WIN = 30 // team wins
+
+const MR_WHITE_CORRECT_GUESS = 100 // guessed the word correctly
 
 const getCivilScore = (
     civil: PlayerRound,
@@ -35,7 +40,8 @@ const getCivilScore = (
 
     let winBonus = 0
     if (civilsWin) {
-        winBonus = civil.eliminatedAtVote === null ? CIVIL_WIN_ALIVE : CIVIL_WIN_ELIMINATED
+        winBonus =
+            civil.eliminatedAtVote === null ? CIVIL_WIN_ALIVE : CIVIL_WIN_ELIMINATED
     }
 
     return { deduction, winBonus }
@@ -70,7 +76,10 @@ export const Conclusion: React.FC = () => {
     const roundState = useRoundState()
     const roundDispatch = useRoundDispatcher()
 
-    const civilsAlive = useMemo(() => getCivilsAlive(roundState.players), [roundState.players])
+    const civilsAlive = useMemo(
+        () => getCivilsAlive(roundState.players),
+        [roundState.players],
+    )
     const undercoversAlive = useMemo(
         () => getUndercoverAlive(roundState.players),
         [roundState.players],
@@ -103,11 +112,21 @@ export const Conclusion: React.FC = () => {
                     evilWins,
                     roundState.mrWhiteGuessedCorrectly,
                 )
-                return { playerName: player.name, deception, winBonus, amount: deception + winBonus }
+                return {
+                    playerName: player.name,
+                    deception,
+                    winBonus,
+                    amount: deception + winBonus,
+                }
             }
 
             const { deduction, winBonus } = getCivilScore(player, evilPlayers, civilsWins)
-            return { playerName: player.name, deception: deduction, winBonus, amount: deduction + winBonus }
+            return {
+                playerName: player.name,
+                deception: deduction,
+                winBonus,
+                amount: deduction + winBonus,
+            }
         })
     }, [
         roundState.players,
@@ -133,99 +152,146 @@ export const Conclusion: React.FC = () => {
         [state.players],
     )
 
-    const outcomeLabel = roundState.mrWhiteGuessedCorrectly
-        ? "Mr White guessed the word!"
+    const outcome = roundState.mrWhiteGuessedCorrectly
+        ? { title: "Mr. White guessed it!", emoji: "👻", color: "bg-pop-yellow" }
         : civilsWins
-          ? "Civils won!"
-          : "Undercovers won!"
-
-    const outcomeColor = civilsWins ? "bg-purple-600" : "bg-orange-500"
+          ? { title: "Civilians win!", emoji: "🎉", color: "bg-pop-mint" }
+          : { title: "Undercovers win!", emoji: "😈", color: "bg-pop-pink" }
 
     return (
-        <div className="flex-grow flex flex-col gap-2 py-4">
-            <div>
-                <div className="container mx-auto px-2 flex justify-end">
-                    <button
-                        className="flex items-center gap-4 rounded-full px-6 py-2 bg-brand text-white text-sm font-bold"
-                        onClick={() => roundDispatch({ type: "NEXT_STEP" })}
+        <div className="flex-grow flex flex-col overflow-hidden">
+            <div className="flex-grow overflow-y-auto">
+                <div className="mx-auto w-full max-w-xl px-4 pt-4 pb-6 flex flex-col gap-5">
+                    <div
+                        className={`pop-card ${outcome.color} text-ink p-5 flex flex-col items-center gap-3 text-center animate-pop-in`}
                     >
-                        <div>Continue</div>
-                        <FiArrowRight />
-                    </button>
-                </div>
-            </div>
-
-            <div className="container mx-auto px-2 flex flex-col gap-4 mt-2">
-                <div className={`${outcomeColor} text-white rounded-xl px-4 py-3 text-center`}>
-                    <div className="text-lg font-bold">{outcomeLabel}</div>
-                    <div className="text-sm opacity-90 mt-1">
-                        <span className="font-medium">{roundState.validWord}</span>
-                        <span className="mx-2">vs</span>
-                        <span className="font-medium">{roundState.undercoverWord}</span>
+                        <span className="text-5xl" aria-hidden="true">
+                            {outcome.emoji}
+                        </span>
+                        <h1 className="text-3xl font-extrabold tracking-tight leading-none">
+                            {outcome.title}
+                        </h1>
+                        <div className="flex items-center justify-center gap-2 flex-wrap mt-1">
+                            <span className="bg-surface text-fg pop-border rounded-xl px-3 py-1 font-extrabold -rotate-2">
+                                {roundState.validWord}
+                            </span>
+                            <span className="text-sm font-extrabold uppercase">vs</span>
+                            <span className="bg-surface text-fg pop-border rounded-xl px-3 py-1 font-extrabold rotate-2">
+                                {roundState.undercoverWord}
+                            </span>
+                        </div>
+                        <div className="text-xs font-bold opacity-75">
+                            Civilians&apos; word · Undercovers&apos; word
+                        </div>
                     </div>
-                </div>
 
-                <div className="flex flex-col gap-2">
-                    {sortedPlayers.map((player, index) => {
-                        const rs = roundScores.find(s => s.playerName === player.name)
-                        const gained = rs?.amount ?? 0
-                        const deception = rs?.deception ?? 0
-                        const winBonus = rs?.winBonus ?? 0
+                    <section className="flex flex-col gap-3" aria-label="Scoreboard">
+                        <h2 className="text-sm font-extrabold uppercase tracking-wider text-muted">
+                            Scoreboard
+                        </h2>
+                        <ol className="flex flex-col gap-2.5">
+                            {sortedPlayers.map((player, index) => {
+                                const rs = roundScores.find(
+                                    s => s.playerName === player.name,
+                                )
+                                const gained = rs?.amount ?? 0
+                                const deception = rs?.deception ?? 0
+                                const winBonus = rs?.winBonus ?? 0
 
-                        const roundPlayer = roundState.players.find(
-                            p => p.name === player.name,
-                        )
-                        const isEvil = roundPlayer?.isUndercover || roundPlayer?.isMrWhite
-                        const isMrWhiteWin =
-                            roundPlayer?.isMrWhite && roundState.mrWhiteGuessedCorrectly
+                                const roundPlayer = roundState.players.find(
+                                    p => p.name === player.name,
+                                )
+                                const isEvil =
+                                    roundPlayer?.isUndercover || roundPlayer?.isMrWhite
+                                const isMrWhiteWin =
+                                    roundPlayer?.isMrWhite &&
+                                    roundState.mrWhiteGuessedCorrectly
 
-                        return (
-                            <div
-                                key={player.name}
-                                className="flex items-center bg-white dark:bg-gray-800 rounded-md py-3 px-4 border border-gray-200 dark:border-gray-700 animate-fade-in-up"
-                                style={{ animationDelay: `${index * 0.08}s` }}
-                            >
-                                <div className="w-7 text-sm font-bold text-gray-400 dark:text-gray-500 shrink-0">
-                                    #{index + 1}
-                                </div>
-                                <div className="flex-grow">
-                                    <div className="font-medium">{player.name}</div>
-                                    {gained > 0 && (
-                                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                            {isMrWhiteWin && "word guessed"}
-                                            {!isMrWhiteWin && deception > 0 && (
-                                                <span>
-                                                    {isEvil
-                                                        ? `${deception / UNDERCOVER_DECEPTION} fooled`
-                                                        : `${deception / CIVIL_CORRECT_ELIMINATION} caught`}
+                                const details = [
+                                    isMrWhiteWin && "word guessed",
+                                    !isMrWhiteWin &&
+                                        deception > 0 &&
+                                        (isEvil
+                                            ? `${deception / UNDERCOVER_DECEPTION} fooled`
+                                            : `${deception / CIVIL_CORRECT_ELIMINATION} caught`),
+                                    !isMrWhiteWin && winBonus > 0 && "win bonus",
+                                ].filter(Boolean)
+
+                                return (
+                                    <li
+                                        key={player.name}
+                                        className={`pop-card flex items-center gap-3 py-2.5 pl-2.5 pr-3 animate-fade-in-up ${
+                                            index === 0
+                                                ? "bg-pop-yellow text-ink"
+                                                : "bg-surface"
+                                        }`}
+                                        style={{
+                                            animationDelay: `${0.15 + index * 0.06}s`,
+                                        }}
+                                    >
+                                        <span className="w-8 text-center text-xl font-extrabold flex-shrink-0">
+                                            {MEDALS[index] ?? (
+                                                <span className="text-base opacity-60">
+                                                    {index + 1}
                                                 </span>
                                             )}
-                                            {!isMrWhiteWin && deception > 0 && winBonus > 0 && (
-                                                <span className="mx-1">·</span>
+                                        </span>
+                                        <Avatar name={player.name} size="sm" />
+                                        <div className="flex-grow min-w-0">
+                                            <div className="font-extrabold truncate">
+                                                {player.name}
+                                            </div>
+                                            {(isEvil || details.length > 0) && (
+                                                <div
+                                                    className={`flex flex-wrap items-center gap-x-1.5 min-w-0 text-xs font-semibold ${
+                                                        index === 0
+                                                            ? "opacity-80"
+                                                            : "text-muted"
+                                                    }`}
+                                                >
+                                                    {roundPlayer && isEvil && (
+                                                        <span
+                                                            className={`${getRoleColor(roundPlayer)} text-ink border-2 border-ink rounded-md px-1 text-[10px] leading-4 font-extrabold uppercase tracking-wider flex-shrink-0`}
+                                                        >
+                                                            {getRoleLabel(roundPlayer)}
+                                                        </span>
+                                                    )}
+                                                    <span>{details.join(" · ")}</span>
+                                                </div>
                                             )}
-                                            {!isMrWhiteWin && winBonus > 0 && <span>win bonus</span>}
                                         </div>
-                                    )}
-                                </div>
-                                <div className="flex items-center gap-3 shrink-0">
-                                    {gained > 0 ? (
-                                        <span className="text-xs text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded-full">
+                                        <span
+                                            className={`text-xs font-extrabold rounded-full px-2 py-0.5 flex-shrink-0 border-2 ${
+                                                gained > 0
+                                                    ? "bg-pop-mint text-ink border-ink"
+                                                    : "border-transparent opacity-50"
+                                            }`}
+                                        >
                                             +{gained}
                                         </span>
-                                    ) : (
-                                        <span className="text-xs text-gray-400 px-2 py-0.5">
-                                            +0
+                                        <span className="w-14 text-right font-extrabold tabular-nums flex-shrink-0">
+                                            {player.score}
+                                            <span className="text-xs font-bold opacity-60">
+                                                {" "}
+                                                pts
+                                            </span>
                                         </span>
-                                    )}
-                                    <div className="text-sm font-bold w-16 text-right">
-                                        {player.score} pts
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })}
+                                    </li>
+                                )
+                            })}
+                        </ol>
+                    </section>
                 </div>
             </div>
+            <BottomBar>
+                <button
+                    className="pop-border pop-shadow pop-press w-full h-14 rounded-2xl bg-pop-purple text-white flex items-center justify-center gap-3 text-lg font-extrabold uppercase tracking-wide"
+                    onClick={() => roundDispatch({ type: "NEXT_STEP" })}
+                >
+                    <span>Next round</span>
+                    <FiArrowRight strokeWidth={3} />
+                </button>
+            </BottomBar>
         </div>
     )
 }
