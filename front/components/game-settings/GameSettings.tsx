@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi"
 import { Undercovers } from "components/game-init/components/Undercovers"
 import { MrWhiteToggle } from "components/game-init/components/MrWhiteToggle"
+import { MrWhiteGuessToggle } from "components/game-init/components/MrWhiteGuessToggle"
 import { Avatar } from "components/ui/Avatar"
 
 interface props {
@@ -236,6 +237,7 @@ export const GameSettings: React.FC<props> = ({ open, onClose }) => {
                             <Undercovers />
                             <MrWhiteToggle />
                         </div>
+                        <MrWhiteGuessToggle />
                     </section>
 
                     {errorMessage && (

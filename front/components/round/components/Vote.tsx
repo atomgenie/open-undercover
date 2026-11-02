@@ -37,7 +37,7 @@ export const Vote: React.FC = () => {
         return getCivilsAlive(roundState.players)
     }, [roundState.players])
 
-    const mrWhiteWin = roundState.mrWhiteGuessedCorrectly
+    const mrWhiteWin = roundState.mrWhiteWin
     // Hold the verdict (and the confetti) until an ejected Mr. White has made a guess
     const isGuessing = roundState.mrWhiteGuessing !== null
 

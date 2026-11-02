@@ -47,7 +47,9 @@ export const MrWhiteGuess: React.FC = () => {
                         Busted, {roundState.mrWhiteGuessing}!
                     </h2>
                     <p className="font-semibold">
-                        You were Mr. White. Guess the civilians' word to steal the win.
+                        {roundState.continueAfterMrWhiteGuess
+                            ? "You were Mr. White. Guess the civilians' word for bonus points. The answer stays secret until the results."
+                            : "You were Mr. White. Guess the civilians' word to steal the win."}
                     </p>
                 </div>
                 <form

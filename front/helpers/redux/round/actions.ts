@@ -24,6 +24,11 @@ interface SetWords {
     validWordIndex: 0 | 1
 }
 
+interface SetRules {
+    type: "SET_RULES"
+    continueAfterMrWhiteGuess: boolean
+}
+
 interface KillPlayer {
     type: "KILL_PLAYER"
     playerName: string
@@ -53,6 +58,7 @@ export type ActionsRound =
     | SetPlayersRound
     | NextStepAction
     | SetWords
+    | SetRules
     | KillPlayer
     | IncrementVoteNumber
     | Reset

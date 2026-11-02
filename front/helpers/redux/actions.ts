@@ -48,6 +48,11 @@ interface SetMrWhite {
     enabled: boolean
 }
 
+interface SetContinueAfterMrWhiteGuess {
+    type: "SET_CONTINUE_AFTER_MR_WHITE_GUESS"
+    enabled: boolean
+}
+
 interface AddScore {
     type: "ADD_SCORE"
     score: { playerName: string; amount: number }[]
@@ -79,6 +84,7 @@ export type Actions =
     | MovePlayer
     | SetUndercovers
     | SetMrWhite
+    | SetContinueAfterMrWhiteGuess
     | AddScore
     | HydrateAction
     | SetPlayerLanguage
