@@ -52,9 +52,14 @@ const getEvilScore = (
     civilPlayers: PlayerRound[],
     evilWins: boolean,
     mrWhiteGuessedCorrectly: boolean,
-): { deception: number; winBonus: number } => {
-    if (evil.isMrWhite && mrWhiteGuessedCorrectly) {
-        return { deception: 0, winBonus: MR_WHITE_CORRECT_GUESS }
+    mrWhiteWin: boolean,
+): { deception: number; winBonus: number; guessBonus: number } => {
+    const guessBonus =
+        evil.isMrWhite && mrWhiteGuessedCorrectly ? MR_WHITE_CORRECT_GUESS : 0
+
+    // The guess ended the round: Mr. White only gets the guess bonus
+    if (evil.isMrWhite && mrWhiteWin) {
+        return { deception: 0, winBonus: 0, guessBonus }
     }
 
     const deception = civilPlayers.reduce((pts, civil) => {
@@ -67,7 +72,7 @@ const getEvilScore = (
 
     const winBonus = evilWins ? UNDERCOVER_WIN : 0
 
-    return { deception, winBonus }
+    return { deception, winBonus, guessBonus }
 }
 
 export const Conclusion: React.FC = () => {
@@ -90,7 +95,7 @@ export const Conclusion: React.FC = () => {
         () => isUndercoversWin(undercoversAlive, civilsAlive),
         [undercoversAlive, civilsAlive],
     )
-    const evilWins = undercoverWins || roundState.mrWhiteGuessedCorrectly
+    const evilWins = undercoverWins || roundState.mrWhiteWin
 
     const civilPlayers = useMemo(
         () => roundState.players.filter(p => !p.isUndercover && !p.isMrWhite),
@@ -106,17 +111,19 @@ export const Conclusion: React.FC = () => {
             const isEvil = player.isUndercover || player.isMrWhite
 
             if (isEvil) {
-                const { deception, winBonus } = getEvilScore(
+                const { deception, winBonus, guessBonus } = getEvilScore(
                     player,
                     civilPlayers,
                     evilWins,
                     roundState.mrWhiteGuessedCorrectly,
+                    roundState.mrWhiteWin,
                 )
                 return {
                     playerName: player.name,
                     deception,
                     winBonus,
-                    amount: deception + winBonus,
+                    guessBonus,
+                    amount: deception + winBonus + guessBonus,
                 }
             }
 
@@ -125,12 +132,14 @@ export const Conclusion: React.FC = () => {
                 playerName: player.name,
                 deception: deduction,
                 winBonus,
+                guessBonus: 0,
                 amount: deduction + winBonus,
             }
         })
     }, [
         roundState.players,
         roundState.mrWhiteGuessedCorrectly,
+        roundState.mrWhiteWin,
         evilWins,
         civilsWins,
         civilPlayers,
@@ -152,7 +161,7 @@ export const Conclusion: React.FC = () => {
         [state.players],
     )
 
-    const outcome = roundState.mrWhiteGuessedCorrectly
+    const outcome = roundState.mrWhiteWin
         ? { title: "Mr. White guessed it!", emoji: "👻", color: "bg-pop-yellow" }
         : civilsWins
           ? { title: "Civilians win!", emoji: "🎉", color: "bg-pop-mint" }
@@ -183,6 +192,11 @@ export const Conclusion: React.FC = () => {
                         <div className="text-xs font-bold opacity-75">
                             Civilians&apos; word · Undercovers&apos; word
                         </div>
+                        {roundState.mrWhiteGuessedCorrectly && !roundState.mrWhiteWin && (
+                            <div className="bg-pop-yellow text-ink pop-border rounded-xl px-3 py-1 text-sm font-extrabold">
+                                👻 Mr. White guessed the word too!
+                            </div>
+                        )}
                     </div>
 
                     <section className="flex flex-col gap-3" aria-label="Scoreboard">
@@ -197,24 +211,20 @@ export const Conclusion: React.FC = () => {
                                 const gained = rs?.amount ?? 0
                                 const deception = rs?.deception ?? 0
                                 const winBonus = rs?.winBonus ?? 0
+                                const guessBonus = rs?.guessBonus ?? 0
 
                                 const roundPlayer = roundState.players.find(
                                     p => p.name === player.name,
                                 )
                                 const isEvil =
                                     roundPlayer?.isUndercover || roundPlayer?.isMrWhite
-                                const isMrWhiteWin =
-                                    roundPlayer?.isMrWhite &&
-                                    roundState.mrWhiteGuessedCorrectly
-
                                 const details = [
-                                    isMrWhiteWin && "word guessed",
-                                    !isMrWhiteWin &&
-                                        deception > 0 &&
+                                    guessBonus > 0 && "word guessed",
+                                    deception > 0 &&
                                         (isEvil
                                             ? `${deception / UNDERCOVER_DECEPTION} fooled`
                                             : `${deception / CIVIL_CORRECT_ELIMINATION} caught`),
-                                    !isMrWhiteWin && winBonus > 0 && "win bonus",
+                                    winBonus > 0 && "win bonus",
                                 ].filter(Boolean)
 
                                 return (

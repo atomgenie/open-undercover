@@ -26,6 +26,8 @@ export interface State {
     darkMode: boolean
     undercovers: number
     mrWhite: boolean
+    /** When true, Mr. White guessing the word right scores but doesn't end the round */
+    continueAfterMrWhiteGuess: boolean
     roundId: number
 }
 
@@ -36,6 +38,7 @@ const initialState: State = {
     darkMode: false,
     undercovers: 1,
     mrWhite: false,
+    continueAfterMrWhiteGuess: false,
     roundId: 0,
 }
 
@@ -130,6 +133,11 @@ const reducer: Reducer<State, Actions> = (state, action) => {
                 undercovers: newUndercovers,
             }
         }
+        case "SET_CONTINUE_AFTER_MR_WHITE_GUESS":
+            return {
+                ...state,
+                continueAfterMrWhiteGuess: action.enabled,
+            }
         case "SET_PLAYER_LANGUAGE":
             return {
                 ...state,

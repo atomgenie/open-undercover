@@ -5,6 +5,7 @@ import { useMemo, useRef, useState } from "react"
 import { FiPlay, FiPlus } from "react-icons/fi"
 import { PlayerCard } from "./components/PlayerCard"
 import { MrWhiteToggle } from "./components/MrWhiteToggle"
+import { MrWhiteGuessToggle } from "./components/MrWhiteGuessToggle"
 import { Undercovers } from "./components/Undercovers"
 import { BottomBar } from "components/ui/BottomBar"
 import { TeamSummary } from "./components/TeamSummary"
@@ -123,6 +124,7 @@ export const GameInit: React.FC = () => {
                             <Undercovers />
                             <MrWhiteToggle />
                         </div>
+                        <MrWhiteGuessToggle />
                     </section>
                 </div>
             </div>

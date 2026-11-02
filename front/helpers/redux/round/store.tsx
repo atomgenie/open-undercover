@@ -21,7 +21,12 @@ export interface RoundState {
     isEnd: boolean
     scoreAdded: boolean
     mrWhiteGuessing: string | null
+    /** Mr. White found the civilians' word (earns the guess bonus) */
     mrWhiteGuessedCorrectly: boolean
+    /** Mr. White's correct guess ended the round with a Mr. White win */
+    mrWhiteWin: boolean
+    /** Snapshot of the game setting, taken when the round starts */
+    continueAfterMrWhiteGuess: boolean
 }
 
 const initalState: RoundState = {
@@ -36,6 +41,8 @@ const initalState: RoundState = {
     scoreAdded: false,
     mrWhiteGuessing: null,
     mrWhiteGuessedCorrectly: false,
+    mrWhiteWin: false,
+    continueAfterMrWhiteGuess: false,
 }
 
 const StoreRoundContext = createContext<{
@@ -84,6 +91,12 @@ const reducer: Reducer<RoundState, ActionsRound> = (state, action) => {
                 validWordIndex: action.validWordIndex,
             }
             break
+        case "SET_RULES":
+            newState = {
+                ...state,
+                continueAfterMrWhiteGuess: action.continueAfterMrWhiteGuess,
+            }
+            break
         case "KILL_PLAYER":
             if (!state.isEnd) {
                 const killedPlayer = state.players.find(p => p.name === action.playerName)
@@ -123,10 +136,21 @@ const reducer: Reducer<RoundState, ActionsRound> = (state, action) => {
             }
             break
         case "MW_GUESS_CORRECT":
+            if (state.continueAfterMrWhiteGuess) {
+                // Mr. White keeps the bonus, but the round goes on as usual
+                newState = {
+                    ...state,
+                    mrWhiteGuessing: null,
+                    mrWhiteGuessedCorrectly: true,
+                }
+                break
+            }
+
             newState = {
                 ...state,
                 mrWhiteGuessing: null,
                 mrWhiteGuessedCorrectly: true,
+                mrWhiteWin: true,
                 isEnd: true,
             }
             return newState

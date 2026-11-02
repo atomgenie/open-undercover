@@ -1,3 +1,4 @@
+import { useStoreState } from "helpers/redux"
 import { ROUND_STEP, useRoundDispatcher, useRoundState } from "helpers/redux/round"
 import { WORDS } from "helpers/words"
 import { useEffect } from "react"
@@ -7,6 +8,7 @@ import { Distribution } from "./components/Distribution"
 import { Conclusion } from "./components/Conclusion"
 
 export const Round: React.FC = () => {
+    const { continueAfterMrWhiteGuess } = useStoreState()
     const roundState = useRoundState()
     const roundDispatch = useRoundDispatcher()
 
@@ -32,6 +34,8 @@ export const Round: React.FC = () => {
             wordPairIndex: randPosition,
             validWordIndex: randUndercover,
         })
+
+        roundDispatch({ type: "SET_RULES", continueAfterMrWhiteGuess })
 
         roundDispatch({ type: "NEXT_STEP" })
     }, [roundState.roundStep])

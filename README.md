@@ -17,6 +17,7 @@ Live example: [https://undercover.tamtanguy.com/](https://undercover.tamtanguy.c
    - **Civilians win** — all undercovers (and Mr. White) are eliminated.
    - **Undercovers win** — they outnumber the remaining civilians.
    - **Mr. White wins** — if eliminated, Mr. White gets one chance to guess the civilian word. A correct guess wins the game for Mr. White.
+     With the optional **Keep playing after Mr. White's guess** setting, a correct guess earns Mr. White bonus points instead, and the round goes on. The guess stays secret until the results.
 
 ## Tech Stack
 
@@ -98,7 +99,7 @@ open-undercover/
 - **Dark mode** — toggle between light and dark themes
 - **PWA** — installable as a standalone app on mobile and desktop
 - **Persistent state** — game progress saved to localStorage (expires after 24h)
-- **Configurable** — adjust number of undercovers, enable/disable Mr. White
+- **Configurable** — adjust number of undercovers, enable/disable Mr. White, choose whether Mr. White's correct guess ends the round
 - **432 word pairs** — built-in multilingual word database (FR / EN / ES)
 - **Score tracking** — tracks player scores across multiple rounds
 
