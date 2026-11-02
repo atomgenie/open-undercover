@@ -99,7 +99,7 @@ open-undercover/
 - **PWA** — installable as a standalone app on mobile and desktop
 - **Persistent state** — game progress saved to localStorage (expires after 24h)
 - **Configurable** — adjust number of undercovers, enable/disable Mr. White
-- **360 word pairs** — built-in multilingual word database (FR / EN / ES)
+- **410 word pairs** — built-in multilingual word database (FR / EN / ES)
 - **Score tracking** — tracks player scores across multiple rounds
 
 ## Contributing Word Pairs

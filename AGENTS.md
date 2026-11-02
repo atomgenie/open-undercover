@@ -49,7 +49,7 @@ There is no ESLint setup.
 | `front/helpers/redux/round/` | Per-round store (roles, words, votes, Mr. White guess)        |
 | `front/helpers/undercover/`  | Pure game rules: win conditions, max undercovers, setup validation |
 | `front/helpers/player/`      | Pure player helpers: initials, name validation, avatar colors |
-| `front/helpers/words/`       | Word pair database `words-i18n.json` (360 pairs, FR/EN/ES) + guide |
+| `front/helpers/words/`       | Word pair database `words-i18n.json` (410 pairs, FR/EN/ES) + guide |
 | `front/types/`               | `Player` (persisted across rounds), `PlayerRound` (one round) |
 | `front/styles/globals.css`   | Tailwind 4 entry point: theme tokens, dark variant, keyframes |
 | `front/public/`              | PWA manifest, service worker (`sw.js`), icons                 |
