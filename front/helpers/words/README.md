@@ -77,7 +77,8 @@ hide in, far enough to expose.
 ### 3.1 Shared superordinate category
 Both words should belong to the same obvious "bucket": *two fruits, two birds, two
 vehicles, two emotions, two buildings.* The shared category is the Undercover's
-camouflage. Cross-category pairs (`Apple` / `Democracy`) have no hiding place.
+camouflage. Cross-category pairs (`Apple` / `Democracy`) have no hiding place, unless
+they share one striking trait that works as the bucket (see §5.2, *le pont absurde*).
 
 ✅ `["Aigle", "Vautour"]` — both birds of prey
 ✅ `["Ascenseur", "Escalier"]` — both ways to change floors
@@ -185,6 +186,62 @@ make an excellent brainstorming checklist — pick one and hunt for two adjacent
 > Sports & Fitness · Technology & Digital · Travel & Places · Relationships ·
 > Brands & Companies · Historical Figures · Movies · Funny · Internet Slang
 
+### 5.2 Make it funny (French-first)
+
+A *fair* pair gives a good round. A *funny* pair is the one people bring up the next
+day. The laughs almost never come from the words. They come from the **clues** the
+words force people to say out loud. These rules aim for that. Draft in French first,
+for a French table, then check the EN and ES versions (see *Translation cautions*).
+
+1. **Le pont absurde: two worlds, one striking shared trait.** Pick two words from
+   unrelated categories that share one obvious, describable trait. Every clue is true
+   for both sides, but each side pictures something completely different, and hearing
+   the two images collide is the joke. Mr. White, piecing a theme together, often lands
+   on something absurd. The shared trait replaces the shared category from §3.1, so it
+   must be **the first thing anyone would say** about both words.
+   `Moustique / Vampire` (they bite you at night and drink your blood),
+   `Escargot / Camping-car` (carries its home around), `Hérisson / Cactus`,
+   `Licorne / Rhinocéros`, `Pingouin / Serveur`, `Prison / Internat`,
+   `Pigeon voyageur / WhatsApp`, `Réveil / Coq`.
+2. **La vraie vie: clues turn into confessions.** Situations everyone has lived
+   through. Players describe them with their own memories ("there's always an uncle
+   who drinks too much", "you lie about your flaws") and the table laughs at the
+   anecdote, not just the word.
+   `Mariage / Enterrement`, `Premier rendez-vous / Entretien d'embauche`,
+   `Repas de famille / Réunion de travail`, `Gueule de bois / Grippe`,
+   `Lundi matin / Dimanche soir`, `Pyjama / Survêtement`, `Slip / Maillot de bain`.
+3. **Les grands débats: the table has opinions.** Pairs French players argue about
+   anyway. Clues become hot takes ("the best thing to eat in winter", "the only
+   acceptable one"), and anyone who disagrees looks suspicious.
+   `Raclette / Fondue`, `Pain au chocolat / Croissant`, `Ketchup / Mayonnaise`,
+   `Paris / Marseille`, `Crocs / Tongs`, `Nutella / Beurre de cacahuète`,
+   `Messi / Ronaldo`, `Lego / Playmobil`, `Monopoly / Uno` (the game that ends in a
+   fight), and the French clichés seen from abroad, `Escargots / Cuisses de grenouille`.
+4. **Culture pop: shared icons, opposite vibes.** Two characters or landmarks with the
+   same silhouette but a different personality. Everyone has a mental image, so clues
+   get specific (and theatrical) fast.
+   `Dark Vador / Voldemort`, `Dumbledore / Gandalf`, `Obélix / Hagrid`,
+   `Schtroumpf / Minion`, `Père Noël / Petite souris`, `Tour Eiffel / Statue de la
+   Liberté`, `Joconde / Vénus de Milo`.
+5. **Invite the performance.** Prefer words people can *act out* in their clue: a sound,
+   a gesture, a voice. `Hoquet / Éternuement`, `Rot / Pet`, `Clown / Mime`,
+   `Karaoké / Chorale` and `Chatouilles / Massage` get players miming within seconds.
+6. **Cheeky, never mean.** Mild embarrassment (underwear, burps, hangovers, first
+   dates) is the sweet spot. The game is played at family dinners, so no slurs, no
+   jokes about real groups of people, no sexual content, and no pair whose joke is
+   that one word insults a player at the table (`Belle-mère / Sorcière`).
+7. **The fair-play rules still apply.** A funny pair must still pass the checklist in
+   §7. Opposites (`Chaud / Froid`), synonyms (`Tasse / Mug`) and category-vs-instance
+   pairs (`Champagne / Vin`) stay out however funny they sound. The first clue settles
+   them, so there is no round left to laugh in.
+8. **Shared memories beat expert knowledge.** Most community word lists online are
+   built by walking a taxonomy: dinosaur species (`Ankylosaure / Pachycéphalosaurus`),
+   spices (`Muscade / Macis`), grape varieties, minor anime characters. Each pair is
+   technically close, but only the expert at the table can play it. Mine childhood and
+   group memories instead, things *everyone* has done: `Récréation / Cantine`,
+   `Dictée / Récitation`, `Escape game / Laser game`, `Barbe à papa / Pop-corn`,
+   `Saint-Valentin / Fête des mères`.
+
 ---
 
 ## 6. The data format
@@ -274,6 +331,15 @@ from the commercial and community versions of Undercover:
 - [Imposter/Undercover how-to-play tutorial — Game On Family](https://gameonfamily.com/blogs/tutorials/imposter)
   — reinforces the guiding idea: the two words must be *close enough to bluff with, yet
   distinct enough for Civilians to eventually tell apart* — the Goldilocks gap.
+- French community word lists reviewed for §5.2:
+  [t2ym5u/undercover.koplugin](https://github.com/t2ym5u/undercover.koplugin) (French
+  food pack), [JuMANocta/Uc-game](https://github.com/JuMANocta/Uc-game) (~700 themed
+  pairs), [ChairGamertag87/undercover](https://github.com/ChairGamertag87/undercover)
+  (500 pairs in 20 themes) and
+  [Mahajily/jeu-entre-amis](https://github.com/Mahajily/jeu-entre-amis). They are good
+  sources of ideas (`Nutella / Beurre de cacahuète`, `Escargots / Cuisses de
+  grenouille`, `Récréation / Cantine` come from there) and a good illustration of rule 8:
+  many of their pairs need expert knowledge to play.
 
 The consistent takeaway across all of them matches Section 2: aim for the sweet spot of
 semantic distance. Everything else in this guide is a way to hit it reliably.
