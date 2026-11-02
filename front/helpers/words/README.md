@@ -214,7 +214,9 @@ for a French table, then check the EN and ES versions (see *Translation cautions
    anyway. Clues become hot takes ("the best thing to eat in winter", "the only
    acceptable one"), and anyone who disagrees looks suspicious.
    `Raclette / Fondue`, `Pain au chocolat / Croissant`, `Ketchup / Mayonnaise`,
-   `Paris / Marseille`, `Crocs / Tongs`, `Zidane / Mbappé`.
+   `Paris / Marseille`, `Crocs / Tongs`, `Nutella / Beurre de cacahuète`,
+   `Messi / Ronaldo`, `Lego / Playmobil`, `Monopoly / Uno` (the game that ends in a
+   fight), and the French clichés seen from abroad, `Escargots / Cuisses de grenouille`.
 4. **Culture pop: shared icons, opposite vibes.** Two characters or landmarks with the
    same silhouette but a different personality. Everyone has a mental image, so clues
    get specific (and theatrical) fast.
@@ -232,6 +234,13 @@ for a French table, then check the EN and ES versions (see *Translation cautions
    §7. Opposites (`Chaud / Froid`), synonyms (`Tasse / Mug`) and category-vs-instance
    pairs (`Champagne / Vin`) stay out however funny they sound. The first clue settles
    them, so there is no round left to laugh in.
+8. **Shared memories beat expert knowledge.** Most community word lists online are
+   built by walking a taxonomy: dinosaur species (`Ankylosaure / Pachycéphalosaurus`),
+   spices (`Muscade / Macis`), grape varieties, minor anime characters. Each pair is
+   technically close, but only the expert at the table can play it. Mine childhood and
+   group memories instead, things *everyone* has done: `Récréation / Cantine`,
+   `Dictée / Récitation`, `Escape game / Laser game`, `Barbe à papa / Pop-corn`,
+   `Saint-Valentin / Fête des mères`.
 
 ---
 
@@ -322,6 +331,15 @@ from the commercial and community versions of Undercover:
 - [Imposter/Undercover how-to-play tutorial — Game On Family](https://gameonfamily.com/blogs/tutorials/imposter)
   — reinforces the guiding idea: the two words must be *close enough to bluff with, yet
   distinct enough for Civilians to eventually tell apart* — the Goldilocks gap.
+- French community word lists reviewed for §5.2:
+  [t2ym5u/undercover.koplugin](https://github.com/t2ym5u/undercover.koplugin) (French
+  food pack), [JuMANocta/Uc-game](https://github.com/JuMANocta/Uc-game) (~700 themed
+  pairs), [ChairGamertag87/undercover](https://github.com/ChairGamertag87/undercover)
+  (500 pairs in 20 themes) and
+  [Mahajily/jeu-entre-amis](https://github.com/Mahajily/jeu-entre-amis). They are good
+  sources of ideas (`Nutella / Beurre de cacahuète`, `Escargots / Cuisses de
+  grenouille`, `Récréation / Cantine` come from there) and a good illustration of rule 8:
+  many of their pairs need expert knowledge to play.
 
 The consistent takeaway across all of them matches Section 2: aim for the sweet spot of
 semantic distance. Everything else in this guide is a way to hit it reliably.
