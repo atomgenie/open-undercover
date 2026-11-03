@@ -51,8 +51,8 @@ export const Starter: React.FC = () => {
                             ?
                         </h1>
                         <p className="text-muted text-lg">
-                            The party game of words, bluff and betrayal. One phone, 3+
-                            friends.
+                            <strong className="text-fg">Undercover</strong> is the party
+                            game of words, bluff and betrayal. One phone, 3+ friends.
                         </p>
                     </div>
 

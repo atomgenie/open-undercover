@@ -102,6 +102,7 @@ open-undercover/
 - **Configurable** — adjust number of undercovers, enable/disable Mr. White, choose whether Mr. White's correct guess ends the round
 - **432 word pairs** — built-in multilingual word database (FR / EN / ES)
 - **Score tracking** — tracks player scores across multiple rounds
+- **SEO-ready** — meta description, Open Graph / Twitter cards, JSON-LD structured data, `robots.txt` and sitemap
 
 ## Contributing Word Pairs
 

@@ -5,6 +5,7 @@ import Head from "next/head"
 import { StoreProvider } from "helpers/redux/store"
 import { Header } from "components/header/Header"
 import { DarkMode } from "components/dark-mode"
+import { Seo } from "components/seo"
 
 const MyApp = ({ Component, pageProps }: any) => {
     useEffect(() => {
@@ -19,15 +20,12 @@ const MyApp = ({ Component, pageProps }: any) => {
     return (
         <>
             <Head>
-                <link rel="manifest" href="/manifest.json" />
                 <meta
                     name="viewport"
                     content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
                 />
-                <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-                <meta name="theme-color" content="#7c3aed" />
-                <title>Open Undercover</title>
             </Head>
+            <Seo />
             <StoreProvider>
                 <DarkMode>
                     <div className="overflow-hidden flex flex-col flex-1 bg-paper text-fg font-display">
