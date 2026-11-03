@@ -43,16 +43,17 @@ There is no ESLint setup.
 
 | Path                         | Purpose                                                       |
 | ---------------------------- | ------------------------------------------------------------- |
-| `front/pages/`               | `_app.tsx` (providers, SW registration), `index.tsx` (router) |
-| `front/components/<feature>` | UI by feature: `starter`, `game-init`, `round`, `game-settings`, `header`, `dark-mode`; shared primitives in `ui/` |
+| `front/pages/`               | `_document.tsx` (`<html lang>`, icons), `_app.tsx` (providers, SW registration), `index.tsx` (router) |
+| `front/components/<feature>` | UI by feature: `starter`, `game-init`, `round`, `game-settings`, `header`, `dark-mode`, `seo`; shared primitives in `ui/` |
 | `front/helpers/redux/`       | Global store: React Context + `useReducer`. **Not Redux**, despite the name |
 | `front/helpers/redux/round/` | Per-round store (roles, words, votes, Mr. White guess)        |
 | `front/helpers/undercover/`  | Pure game rules: win conditions, max undercovers, setup validation |
 | `front/helpers/player/`      | Pure player helpers: initials, name validation, avatar colors |
 | `front/helpers/words/`       | Word pair database `words-i18n.json` (432 pairs, FR/EN/ES) + guide |
+| `front/helpers/seo/`         | SEO metadata (site URL, title, description), JSON-LD builder |
 | `front/types/`               | `Player` (persisted across rounds), `PlayerRound` (one round) |
 | `front/styles/globals.css`   | Tailwind 4 entry point: theme tokens, dark variant, keyframes |
-| `front/public/`              | PWA manifest, service worker (`sw.js`), icons                 |
+| `front/public/`              | PWA manifest, service worker (`sw.js`), icons, `robots.txt`, `sitemap.xml`, `og-image.png` |
 
 ### Game flow
 
@@ -93,6 +94,12 @@ words is the civilian one. The round store keeps `wordPairIndex` / `validWordInd
 - **UI copy** is in English. The word pairs are translated into FR / EN / ES.
 - **Service worker:** `public/sw.js` only registers in production (not on Vercel
   previews). Bump `CACHE_NAME` when you change what it caches.
+- **SEO:** titles, descriptions, Open Graph / Twitter tags and JSON-LD come from
+  `helpers/seo/seo.ts` and are rendered by `components/seo/Seo.tsx` in `_app.tsx`. The
+  production URL (`SITE_URL`) is repeated in the static `public/robots.txt` and
+  `public/sitemap.xml`; `seo.test.ts` fails if they drift apart. Vercel previews get
+  `noindex`. `public/og-image.png` is the 1200×630 social preview: keep that size if you
+  replace it.
 - **Existing typos are part of the API:** `voteNuber`, `initalState`. Do not rename them
   as a side effect of another change.
 

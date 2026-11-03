@@ -1,6 +1,13 @@
 {
     "name": "Open Undercover",
     "short_name": "Open Undercover",
+    "id": "/",
+    "description": "The party game of words, bluff and betrayal. One phone, 3+ friends.",
+    "lang": "en",
+    "categories": [
+        "games",
+        "entertainment"
+    ],
     "theme_color": "#7c3aed",
     "background_color": "#fff6e5",
     "display": "fullscreen",
